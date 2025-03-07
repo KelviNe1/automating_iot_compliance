@@ -90,31 +90,8 @@ def augment_query_variations(main_query, model="gpt-4o-mini", max_tokens=100, nu
     if len(variations) != num_variations:
         print(f"Warning: Expected {num_variations} variations, but received {len(variations)} for query: {main_query}")
     return variations
-    
-    # try:
-    #     response = openai.ChatCompletion.create(
-    #         model=model,
-    #         messages=[
-    #             {"role": "system", "content": "You are an expert AI assistant that generates variations of given compliance queries."},
-    #             {"role": "user", "content": prompt}
-    #         ],
-    #         max_tokens=max_tokens,
-    #         temperature=0.7
-    #     )
-    # except Exception as e:
-    #     print("Error calling OpenAI API:", e)
-    #     return []
-    
-    # # Split the response into individual lines (each variation)
-    # variations_text = response.choices[0].text.strip()
-    # variations = [line.strip() for line in variations_text.split("\n") if line.strip()]
-    # # Log a warning if we don't get the expected number of variations
-    # if len(variations) != num_variations:
-    #     print(f"Warning: Expected {num_variations} variations, but received {len(variations)} for query: {main_query}")
-    # return variations
 
 def main():
-    # Define input and output file names
     input_file = "/Users/Kelchee/Documents/Papers/P3/exp/KG/nondeontic_extra.txt"   # The .txt file with query pairs
     output_file = "/Users/Kelchee/Documents/Papers/P3/exp/KG/augmented_training_data.json"
     
@@ -127,7 +104,6 @@ def main():
     for idx, entry in enumerate(parsed_entries, start=1):
         print(f"Entry {idx+1}: {entry}")
         main_desc = entry["description"]
-        # Use the main description to generate additional variations
         additional_variations = augment_query_variations(main_desc)
         # Combine the main description with the new variations (total 1+4 = 5 variations)
         descriptions = [main_desc] + additional_variations
@@ -140,7 +116,7 @@ def main():
         print(f"Augmented_Entry {idx+1}: {augmented_entry}")
         augmented_entries.append(augmented_entry)
     
-    # Write the augmented entries to the output JSON file in pretty-printed format
+
     try:
         with open(output_file, "w", encoding="utf-8") as f_out:
             json.dump(augmented_entries, f_out, indent=2)
