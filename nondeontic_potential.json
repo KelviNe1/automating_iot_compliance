@@ -1,0 +1,672 @@
+[
+    {
+        "descriptions": [
+            "Which personal data is processed by any processor?",
+            "List all personal data entries that are processed by a processor.",
+            "Show me the personal data being handled by processors.",
+            "What personal data records are currently processed by any processor?",
+            "Which personal data items undergo processing by a processor?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?processing rdf:type iot-reg:DataProcessing .\n  ?processing iot-reg:processes ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which recipients have benefitted from data sharing activities?",
+            "List all recipients who have received shared data.",
+            "Show me the entities that benefited from data-sharing transactions.",
+            "What recipients have been involved in data-sharing processes?",
+            "Which individuals or organizations have received shared data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?recipient), STRLEN(STR(iot-reg:))) AS ?recipientValue)\nWHERE {\n  ?sharing rdf:type iot-reg:DataSharing ;\n    iot-reg:hasRecipient ?recipient .\n  ?recipient rdf:type iot-reg:Recipient .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is shared by all devices?",
+            "List personal data entries that are shared across all devices.",
+            "Show me the personal data that is being shared by devices.",
+            "What data is shared between multiple devices?",
+            "Which personal data items are accessible by all devices?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?sharing rdf:type iot-reg:DataSharing .\n  ?sharing iot-reg:shares ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is retained by all devices?",
+            "List personal data records that are stored by all devices.",
+            "Show me the personal data retained across multiple devices.",
+            "What personal data is preserved by every device?",
+            "Which stored data entries are kept by all devices?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?retention rdf:type iot-reg:DataRetention .\n  ?retention iot-reg:retains ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data entries are flagged as high-risk?",
+            "List personal data that has been identified as high-risk.",
+            "Show me the personal data entries marked as high-risk.",
+            "What personal data records are flagged for high risk?",
+            "Which personal data items have been categorized as high-risk?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  ?data iot-reg:isHighRisk true .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices have an associated location in the graph?",
+            "List all devices that have a location linked to them.",
+            "Show me the devices with recorded locations in the dataset.",
+            "What devices are registered with a geographic location?",
+            "Which devices have a specified location in the ontology?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?device rdf:type iot-reg:Device .\n  ?loc rdf:type ?Point .\n  ?device iot-reg:location ?loc .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices observe heart rate data?",
+            "List all devices that monitor heart rate data.",
+            "Show me the devices that record heart rate information.",
+            "What devices are capable of heart rate tracking?",
+            "Which devices observe and log heart rate data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?heartRateData rdf:type iot-reg:FeatureOfInterest .\n  ?heartRateData iot-reg:isObservedBy ?device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data entries have a defined deletion time?",
+            "List all personal data entries that specify a deletion time.",
+            "Show me personal data that has an associated deletion time.",
+            "What personal data records have a defined removal date?",
+            "Which personal data points include a deletion timestamp?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  ?data iot-reg:hasDeletionTime ?deletionTime .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is retained by the controller?",
+            "List all personal data records that the controller retains.",
+            "Show me the personal data that is managed by a controller.",
+            "What personal data is stored under the controller's management?",
+            "Which personal data items are held by the data controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?retention rdf:type iot-reg:DataRetention ;\n    iot-reg:retains ?data .\n  ?controller iot-reg:controlsPersonalData ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations involve personal data?",
+            "List all observations that contain personal data records.",
+            "Show me the observations that have personal data included.",
+            "What observations involve the use of personal data?",
+            "Which recorded observations reference personal data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  ?observation iot-reg:involvesPersonalData+ ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations use the property iot-reg:hasFeatureOfInterest with sleep data?",
+            "List all observations that reference sleep data as a feature of interest.",
+            "Show me observations linked to sleep activity data.",
+            "What observations involve sleep-related data features?",
+            "Which recorded observations track sleep-related information?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue)\nWHERE {\n  ?observation rdf:type iot-reg:Observation ;\n    iot-reg:hasFeatureOfInterest ?featureOfInterest .\n  ?featureOfInterest rdf:type iot-reg:SleepActivity .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data indicates an anonymized flag?",
+            "List all personal data entries that have an anonymized status.",
+            "Show me personal data records marked as anonymized.",
+            "What personal data has an anonymization flag?",
+            "Which personal data items are flagged as anonymized?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n      iot-reg:isAnonymized ?flag .\n}"
+    },
+    {
+        "descriptions": [
+            "Which individuals/healthcare providers are typed as recipients?",
+            "List all healthcare providers that are categorized as recipients.",
+            "Show me the healthcare providers registered as data recipients.",
+            "What individuals or organizations are designated as recipients?",
+            "Which healthcare entities are classified as data recipients?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?provider), STRLEN(STR(iot-reg:))) AS ?providerValue)\nWHERE {\n  ?provider rdf:type iot-reg:HealthcareProvider .\n}"
+    },
+    {
+        "descriptions": [
+            "What access list governs the Service for the corresponding recipients?",
+            "List the access lists that apply to services and their recipients.",
+            "Show me the services that have an access list linked to recipients.",
+            "What access controls are in place for recipients of a given service?",
+            "Which services maintain access lists that define recipient permissions?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?accessList), STRLEN(STR(iot-reg:))) AS ?accessListValue)\n(SUBSTR(STR(?recipient), STRLEN(STR(iot-reg:))) AS ?recipientValue)\nWHERE {\n  ?service rdf:type iot-reg:Service;\n      iot-reg:hasAccessList ?accessList .\n  ?accessList iot-reg:hasRecipient ?recipient .\n}"
+    },
+    {
+        "descriptions": [
+            "What erasure dates have been set for personal data belonging to data subjects?",
+            "List all erasure request dates for personal data owned by data subjects.",
+            "Show me the erasure dates specified for personal data entries.",
+            "What personal data deletion requests have assigned dates?",
+            "Which data subjects have set erasure request timestamps?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?erasureRequestDate\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n      iot-reg:ownedBy ?dataSubject .\n  ?dataSubject rdf:type iot-reg:DataSubject ;\n      iot-reg:hasErasureRequestDate ?erasureRequestDate .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is owned by the user 'Garmin_Smartwatch2_User'?",
+            "List all personal data entries linked to Garmin_Smartwatch2_User.",
+            "Show me the personal data records owned by Garmin_Smartwatch2_User.",
+            "What personal data does Garmin_Smartwatch2_User have ownership of?",
+            "Which personal data instances are associated with Garmin_Smartwatch2_User?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iotreg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n      iot-reg:ownedBy iot-reg:Garmin_Smartwatch2_User .\n}"
+    },
+    {
+        "descriptions": [
+            "Which privacy policies are linked to data retention processes?",
+            "List all privacy policies that apply to data retention activities.",
+            "Show me the privacy policies that govern data retention processes.",
+            "What privacy policies are associated with data retention records?",
+            "Which privacy policies provide guidelines for data retention?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?policy), STRLEN(STR(iot-reg:))) AS ?policyValue)\nWHERE {\n  ?retention rdf:type iot-reg:DataRetention ;\n      iot-reg:isCoveredBy ?policy .\n  ?policy rdf:type iot-reg:PrivacyPolicy .\n}"
+    },
+    {
+        "descriptions": [
+            "Which privacy policies have an effective date specified?",
+            "List all privacy policies that include an effective date.",
+            "Show me privacy policies that specify an activation date.",
+            "What privacy policies have recorded effective dates?",
+            "Which privacy policies define when they come into effect?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?policy), STRLEN(STR(iot-reg:))) AS ?policyValue)\nWHERE {\n  ?policy rdf:type iot-reg:PrivacyPolicy ;\n      iot-reg:hasEffectiveDate ?date .\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention resources specify a retention period?",
+            "List all data retention resources that include a retention period.",
+            "Show me retention records that define a data retention duration.",
+            "What data retention records specify how long data is retained?",
+            "Which retention resources provide information on retention timelines?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?retention), STRLEN(STR(iot-reg:))) AS ?retentionValue)\nWHERE {\n  ?retention rdf:type iot-reg:DataRetention ;\n    iot-reg:hasRetentionPeriod ?period .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices are typed as 'Devices' in this ontology?",
+            "List all devices that are classified under the Device type.",
+            "Show me the devices that are explicitly typed as 'Devices'.",
+            "What devices are categorized under the 'Device' class in this ontology?",
+            "Which devices are recognized as 'Devices' in the dataset?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?device rdf:type iot-reg:Device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which deleted personal data have a record of processing?",
+            "List all deleted personal data that retain a processing history.",
+            "Show me the deleted personal data that still have processing records.",
+            "What personal data, despite deletion, have processing logs?",
+            "Which personal data entries, though deleted, have a recorded processing history?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion ;\n    iot-reg:deletes ?data ;\n    iot-reg:hasRecordsOfProcessing ?true .\n}"
+    },
+    {
+        "descriptions": [
+            "Which controllers manage personal data in this graph?",
+            "List all data controllers responsible for managing personal data.",
+            "Show me the controllers handling personal data in this dataset.",
+            "What entities act as controllers for personal data?",
+            "Which controllers oversee the management of personal data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?controller), STRLEN(STR(iot-reg:))) AS ?controllerValue)\nWHERE {\n  ?controller rdf:type iot-reg:Controller .\n  ?controller iot-reg:controlsPersonalData ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "Which data subjects have hasRequestedErasure set to true?",
+            "List all data subjects who have requested data erasure.",
+            "Show me data subjects that have requested their data to be erased.",
+            "What data subjects have an active erasure request?",
+            "Which individuals have hasRequestedErasure marked as true?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?subject), STRLEN(STR(iot-reg:))) AS ?subjectValue)\nWHERE {\n  ?subject rdf:type iot-reg:DataSubject ;\n    iot-reg:hasRequestedErasure true .\n}"
+    },
+    {
+        "descriptions": [
+            "What Services have an accessList and a corresponding recipient?",
+            "List services that maintain an access list for their recipients.",
+            "Show me the services with access control lists linked to recipients.",
+            "What services define recipient permissions using access lists?",
+            "Which services are associated with access lists and recipients?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?service), STRLEN(STR(iot-reg:))) AS ?serviceValue)\n(SUBSTR(STR(?accessList), STRLEN(STR(iot-reg:))) AS ?accessListValue)\n(SUBSTR(STR(?recipient), STRLEN(STR(iot-reg:))) AS ?recipientValue)\nWHERE {\n  ?service rdf:type iot-reg:Service;\n    iot-reg:hasAccessList ?accessList .\n  ?accessList iot-reg:hasRecipient ?recipient .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data items do not have a deletion time property?",
+            "List all personal data entries without an assigned deletion time.",
+            "Show me the personal data records missing a deletion timestamp.",
+            "What personal data does not specify a deletion time?",
+            "Which personal data instances lack a defined deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  FILTER NOT EXISTS {\n    ?data iot-reg:hasDeletionTime ?delTime .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations use the property iot-reg:hasFeatureOfInterest with physical activity data?",
+            "List all observations that track physical activity data.",
+            "Show me the recorded observations related to physical activity.",
+            "What observations involve physical activity data features?",
+            "Which recorded data points reference physical activity metrics?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue)\nWHERE {\n  ?observation rdf:type iot-reg:Observation ;\n    iot-reg:hasFeatureOfInterest ?featureOfInterest .\n  ?featureOfInterest rdf:type iot-reg:PhysicalActivity .\n}"
+    },
+    {
+        "descriptions": [
+            "Which privacy policies have a manufacturer detail specified?",
+            "List privacy policies that include manufacturer details.",
+            "Show me privacy policies that reference a manufacturer.",
+            "What privacy policies specify details about manufacturers?",
+            "Which privacy policies contain manufacturer-related information?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?policy), STRLEN(STR(iot-reg:))) AS ?policyValue)\n(SUBSTR(STR(?manufacturer), STRLEN(STR(iot-reg:))) AS ?manufacturerValue)\nWHERE {\n  ?policy rdf:type iot-reg:PrivacyPolicy ;\n    iot-reg:hasManufacturerDetail ?manufacturer .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices are inversely linked via iot-reg:observes to an observable property?",
+            "List devices that are indirectly linked to an observable property.",
+            "Show me the devices associated with an observable property via inverse relations.",
+            "What devices have an inverse relationship with an observed property?",
+            "Which devices are linked through iot-reg:observes to an observable property?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?property ^iot-reg:observes ?device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which properties do the devices observe?",
+            "List all observable properties recorded by devices.",
+            "Show me the properties that devices are observing.",
+            "What properties are being tracked by devices?",
+            "Which attributes are observed by devices in the system?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?property iot-reg:observes ?device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which privacy policies have an Update Date referenced?",
+            "List all privacy policies that specify an update date.",
+            "Show me privacy policies that include an update timestamp.",
+            "What privacy policies reference their last update date?",
+            "Which privacy policies define when they were last updated?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?policy), STRLEN(STR(iot-reg:))) AS ?policyValue)\nWHERE {\n  ?policy rdf:type iot-reg:PrivacyPolicy ;\n    iot-reg:hasUpdateDate ?UpdateDate .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data items have a breach notification time captured?",
+            "List all personal data that have an associated breach notification time.",
+            "Show me the personal data records linked to breach notifications.",
+            "What personal data entries include a timestamp for breach notifications?",
+            "Which personal data instances have an assigned breach notification time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  ?breach iot-reg:involvesPersonalData ?data ;\n        iot-reg:hasBreachNotificationTime ?breachTime .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices record the Location feature?",
+            "List devices that capture location as a feature.",
+            "Show me all devices that store location data.",
+            "What devices in the system are tracking location?",
+            "Which devices have location data linked to them?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?loc rdf:type iot-reg:Location ; \n      iot-reg:isObservedBy ?device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations use the property iot-reg:hasFeatureOfInterest with heart rate data?",
+            "List all observations related to heart rate data.",
+            "Show me the recorded observations that involve heart rate metrics.",
+            "What observations in the system track heart rate?",
+            "Which data entries reference heart rate observations?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue)\nWHERE {\n  ?observation rdf:type iot-reg:Observation .\n  ?observation iot-reg:hasFeatureOfInterest ?featureOfInterest .\n  ?featureOfInterest rdf:type iot-reg:HeartRate .\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention entries are covered by a privacy policy?",
+            "List all data retention records that are governed by a privacy policy.",
+            "Show me the data retention entries linked to privacy policies.",
+            "What data retention records fall under a privacy policy?",
+            "Which retained data instances have a privacy policy applied to them?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:))) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n        iot-reg:isCoveredBy ?policy .\n  ?policy rdf:type iot-reg:PrivacyPolicy .\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection objects reference a health monitoring purpose?",
+            "List all data collections associated with health monitoring.",
+            "Show me the data collection instances that involve health tracking.",
+            "What data collection entries specify health monitoring as a purpose?",
+            "Which data collection activities are linked to health monitoring?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:))) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection ; \n    iot-reg:activityHasPurpose ?purpose .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is owned by Garmin_Smartwatch1_User?",
+            "List all personal data linked to Garmin_Smartwatch1_User.",
+            "Show me the personal data records associated with Garmin_Smartwatch1_User.",
+            "What data entries belong to Garmin_Smartwatch1_User?",
+            "Which personal data instances are recorded under Garmin_Smartwatch1_User?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n    iot-reg:ownedBy iot-reg:Garmin_Smartwatch1_User .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is owned by Garmin_Smartwatch2_User?",
+            "List all personal data linked to Garmin_Smartwatch2_User.",
+            "Show me the personal data records associated with Garmin_Smartwatch2_User.",
+            "What data entries belong to Garmin_Smartwatch2_User?",
+            "Which personal data instances are recorded under Garmin_Smartwatch2_User?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n    iot-reg:ownedBy iot-reg:Garmin_Smartwatch2_User .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data have specified 1-year retention periods?",
+            "List all personal data with a retention period of one year.",
+            "Show me the personal data records that are stored for one year.",
+            "What data entries have a retention policy of one year?",
+            "Which personal data instances specify a 1-year retention duration?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n    iot-reg:hasRetentionPeriod \"1 year\" .\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices record the feature iot-reg:Location as a personal data class?",
+            "List all devices that capture location as a personal data feature.",
+            "Show me the devices that store location as personal data.",
+            "What devices in the system record location as personal data?",
+            "Which devices have location data classified as personal data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?location rdf:type iot-reg:Location ;\n    iot-reg:isObservedBy ?device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations use the property iot-reg:hasFeatureOfInterest with heart rate data?",
+            "List all observations related to heart rate data.",
+            "Show me the recorded observations that involve heart rate metrics.",
+            "What observations in the system track heart rate?",
+            "Which data entries reference heart rate observations?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue)\nWHERE {\n  ?observation rdf:type iot-reg:Observation ;\n    iot-reg:hasFeatureOfInterest ?featureOfInterest .\n  ?featureOfInterest rdf:type iot-reg:HeartRate .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data use AES-256 encryption method?",
+            "List all personal data that are encrypted using AES-256.",
+            "Show me the personal data records that apply AES-256 encryption.",
+            "What personal data items are secured with AES-256 encryption?",
+            "Which personal data entries implement AES-256 for encryption?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n    iot-reg:usesEncryptionMethod \"AES-256\" .\n}"
+    },
+    {
+        "descriptions": [
+            "What devices were captured in the graph?",
+            "List all devices recorded in the knowledge graph.",
+            "Show me the devices present in the stored graph data.",
+            "Which devices have been included in the knowledge graph?",
+            "What devices are registered within the dataset?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:))) AS ?deviceValue)\nWHERE {\n  ?device rdf:type iot-reg:Device .\n}"
+    },
+    {
+        "descriptions": [
+            "Which observation instances have resultTime defined?",
+            "List all observations with a specified result time.",
+            "Show me the recorded observations that include resultTime data.",
+            "What observations in the system contain a result time?",
+            "Which recorded observations store a resultTime value?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:))) AS ?observationValue) (SUBSTR(STR(?resultTime), STRLEN(STR(iot-reg:))) AS ?resultTimeValue)\nWHERE {\n  ?observation rdf:type iot-reg:Observation ;\n    iot-reg:resultTime ?resultTime .\n}"
+    },
+    {
+        "descriptions": [
+            "Which point locations (iot-reg:Point) include both lat and long values?",
+            "List all point locations that contain latitude and longitude.",
+            "Show me the location points that have lat-long values defined.",
+            "What locations in the system store both latitude and longitude?",
+            "Which point objects include geographic coordinates?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?point), STRLEN(STR(iot-reg:))) AS ?pointValue)\nWHERE {\n  ?point rdf:type iot-reg:Point ;\n    iot-reg:lat ?latitude ;\n    iot-reg:long ?longitude .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data belongs to a data subject that also has hasErasureRequestDate set?",
+            "List all personal data owned by a data subject with an erasure request date.",
+            "Show me the personal data records linked to data subjects requesting erasure.",
+            "What personal data items are associated with users that have requested erasure?",
+            "Which personal data entries belong to subjects with active erasure requests?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n    iot-reg:ownedBy ?dataSubject .\n  ?dataSubject rdf:type iot-reg:DataSubject ;\n    iot-reg:hasErasureRequestDate ?erasureRequestDate .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is collected by all devices?",
+            "Show me the personal data collected by all devices.",
+            "What kind of personal data is collected across devices?",
+            "What personal data are devices collecting?",
+            "List the personal data collected from all devices."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))) AS ?dataValue)\nWHERE {\n  ?collection rdf:type iot-reg:DataCollection .\n  ?collection iot-reg:collects ?data .\n}"
+    },
+    {
+        "descriptions": [
+            "What are the data retention periods for the personal data retained by the Garmin smartwatches?",
+            "How long is personal data retained on Garmin smartwatches?",
+            "Show me the retention periods for Garmin smartwatch personal data.",
+            "List the data retention periods for personal data on Garmin devices.",
+            "How long is Garmin smartwatch data stored?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:))+1) AS ?dataValue) ?retentionPeriod\nWHERE {\n  ?dataReteniton a iot-reg:DataRetention ;\n  \tiot-reg:retains ?data .\n  ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being shared with healthcare providers by Garmin Smartwatches?",
+            "Show me the data shared with healthcare providers by Garmin smartwatches.",
+            "Which personal data is being shared with healthcare providers by Garmin smartwatches?",
+            "List the data shared by Garmin smartwatches with healthcare providers.",
+            "Which Garmin smartwatch data is shared with healthcare providers?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n  ?sharing a iot-reg:DataSharing ;\n    iot-reg:shares ?data .\n  ?data iot-reg:hasRecipient iot-reg:HealthcareProvider .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being shared with healthcare providers by Garmin Smartwatch 2?",
+            "Show me the data shared with healthcare providers by Garmin Smartwatch 2.",
+            "Which personal data is shared by Garmin Smartwatch 2 with healthcare providers?",
+            "List the data shared with healthcare providers by Garmin Smartwatch 2.",
+            "Which Garmin Smartwatch 2 data is shared with healthcare providers?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n  ?sharing a iot-reg:DataSharing ;\n    iot-reg:shares ?data .\n  ?data iot-reg:hasRecipient iot-reg:HealthcareProvider .\n  ?data iot-reg:isObservedBy <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch2> .\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is encrypted on Garmin Smartwatches?",
+            "Show me the encrypted personal data collected by Garmin Smartwatches.",
+            "Which personal data is encrypted on Garmin smart devices?",
+            "List the encrypted personal data on Garmin Smartwatches.",
+            "What Garmin smartwatch data is encrypted?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?encryptedData)\nWHERE {\n  ?data iot-reg:isEncrypted true .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What privacy policies (and their URLs) govern Garmin Smartwatches?",
+            "Show me the privacy policies and URLs for Garmin Smartwatches.",
+            "Which privacy policies apply to Garmin Smartwatches?",
+            "List the privacy policies and their URLs that cover Garmin Smartwatches.",
+            "What are the privacy policies governing Garmin Smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?policy), STRLEN(STR(iot-reg:)) + 1) AS ?policyValue) ?policyURL\nWHERE {\n  ?dataLifecycle rdfs:subClassOf iot-reg:DataLifecycle .\n  ?lc a ?dataLifecycle ;\n  \t iot-reg:isCoveredBy ?policy .\n  ?policy iot-reg:hasPolicyURL ?policyURL .\n}"
+    },
+    {
+        "descriptions": [
+            "What are the purposes of data collection for Garmin Smartwatches?",
+            "Show me the purposes of data collection for Garmin devices.",
+            "What purposes are assigned to data collection in Garmin Smartwatches?",
+            "List the purposes for which Garmin devices collect data.",
+            "What purposes do Garmin Smartwatches have for collecting data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?purpose), STRLEN(STR(iot-reg:)) + 1) AS ?purposeValue)\nWHERE {\n    ?collection a iot-reg:DataCollection ;\n                iot-reg:collects ?data .\n    ?data iot-reg:madeObservation ?Observation .\n    ?observation  iot-reg:activityHasPurpose ?purpose .\n    ?data iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What devices are owned by users who have provided consent for data sharing?",
+            "Show me the devices owned by users who have consented to data sharing.",
+            "Which devices are owned by users who have given consent for data sharing?",
+            "List the devices owned by users who provided consent for data sharing.",
+            "Which Garmin devices are owned by users who agreed to data sharing?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue)\nWHERE {\n  ?device a iot-reg:Device ;\n          iot-reg:ownedBy ?user .\n  ?user iot-reg:providesConsentTo ?consent .\n  ?consent iot-reg:permissionGivenForActivity iot-reg:DataSharingActivity .\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is shared with third-party processors by Garmin Smartwatches?",
+            "Show me the personal data shared with third-party processors by Garmin devices.",
+            "Which personal data is shared with third-party processors by Garmin smart devices?",
+            "List the data shared with third-party processors by Garmin Smartwatches.",
+            "Which Garmin Smartwatch data is shared with third-party processors?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n    ?sharing a iot-reg:DataSharing ;\n           iot-reg:shares ?data .\n    ?data iot-reg:hasProcessor iot-reg:ThirdPartyProcessor ;\n    iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What encryption methods are used for personal data collected by Garmin Smartwatch 2?",
+            "Show me the encryption methods used for Garmin Smartwatch 2 personal data.",
+            "Which encryption methods are applied to personal data on Garmin Smartwatch 2?",
+            "List the encryption methods used by Garmin Smartwatch 2 for personal data.",
+            "What encryption methods are used for Garmin Smartwatch 2 data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?encryptionMethod\nWHERE {\n  ?data iot-reg:isObservedBy <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch2> ;\n        iot-reg:usesEncryptionMethod ?encryptionMethod .\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data retention policies apply to data collected by Garmin Smartwatch 2?",
+            "Show me the retention policies for personal data collected by Garmin Smartwatch 2.",
+            "Which retention policies apply to personal data collected by Garmin Smartwatch 2?",
+            "List the retention policies for Garmin Smartwatch 2 personal data.",
+            "What retention policies govern data collected by Garmin Smartwatch 2?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?retentionPeriod ?deletionTime ?encryptionMethod ?encryptionState\nWHERE {\n  ?dataRetention a iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n          ?data iot-reg:hasRetentionPeriod ?retentionPeriod ;\n                 iot-reg:hasDeletionTime ?deletionTime ;\n                 iot-reg:isEncrypted ?encryptionState ;\n                 iot-reg:usesEncryptionMethod ?encryptionMethod .\n  ?data iot-reg:isObservedBy <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch2> .\n}"
+    },
+    {
+        "descriptions": [
+            "What data is collected by Garmin Smartwatch 1 for health monitoring purposes?",
+            "Show me the data collected by Garmin Smartwatch 1 for health monitoring.",
+            "Which data is collected by Garmin Smartwatch 1 for health monitoring purposes?",
+            "List the data Garmin Smartwatch 1 collects for health monitoring.",
+            "What data does Garmin Smartwatch 1 collect for health monitoring?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?collectedData)\nWHERE {\n    ?collection a iot-reg:DataCollection ;\n        iot-reg:collects ?data .\n    ?data iot-reg:madeObservation ?observation ;\n        iot-reg:isObservedBy <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch1> .\n    ?observation  iot-reg:activityHasPurpose iot-reg:HealthMonitoringPurpose .\n}"
+    },
+    {
+        "descriptions": [
+            "What data is collected by Garmin Smartwatches during the data collection stage?",
+            "Show me the data collected by Garmin Smartwatches during the data collection stage.",
+            "Which data is collected by Garmin Smartwatches during data collection?",
+            "List the data Garmin Smartwatches collect during the data collection stage.",
+            "What data is collected by Garmin Smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?collectedData)\nWHERE {\n  ?collection a iot-reg:DataCollection ;\n        iot-reg:collects ?data .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is retained by Garmin Smartwatches, and what are the retention periods?",
+            "Show me the personal data retained by Garmin Smartwatches and the retention periods.",
+            "Which personal data is retained by Garmin Smartwatches, and what are the retention periods?",
+            "List the personal data Garmin Smartwatches retain and their retention periods.",
+            "What personal data and retention periods apply to Garmin Smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?retentionPeriod\nWHERE {\n  ?dataRetention a iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n          ?data  iot-reg:hasRetentionPeriod ?retentionPeriod .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is processed by third-party processors during the data processing stage?",
+            "Show me the personal data processed by third-party processors during the data processing stage.",
+            "Which personal data is processed by third-party processors during data processing?",
+            "List the personal data third-party processors handle during the data processing stage.",
+            "What data do third-party processors process for Garmin Smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue)\nWHERE {\n    ?dataProcessing a iot-reg:DataProcessing ;\n                  iot-reg:processes ?data .\n    ?data iot-reg:hasProcessor ?thirdPartyProcessor .\n\t?data iot-reg:isObservedBy ?device .\n\tFILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is shared with healthcare providers during the data sharing stage?",
+            "Show me the data shared with healthcare providers during the data sharing stage.",
+            "Which data is shared with healthcare providers during data sharing?",
+            "List the data shared with healthcare providers during the data sharing stage.",
+            "What Garmin Smartwatch data is shared with healthcare providers?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n  ?dataSharing a iot-reg:DataSharing ;\n               iot-reg:shares ?data ;\n               iot-reg:hasRecipient iot-reg:HealthcareProvider .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What is the data deletion time for personal data collected by Garmin Smartwatches?",
+            "Show me the data deletion times for personal data collected by Garmin Smartwatches.",
+            "Which data deletion times apply to personal data collected by Garmin Smartwatches?",
+            "List the deletion times for personal data collected by Garmin Smartwatches.",
+            "What are the data deletion times for Garmin Smartwatch personal data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?deletionTime\nWHERE {\n    ?dataDeletion a iot-reg:DataDeletion ;\n        iot-reg:deletes ?data ;\n        iot-reg:hasDeletionTime ?deletionTime .\n    ?data iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which observations have been made on Garmin Smartwatch 1 regarding personal data deletion?",
+            "Show me the observations made on Garmin Smartwatch 1 regarding personal data deletion.",
+            "Which observations has Garmin Smartwatch 1 made regarding personal data deletion?",
+            "List the observations Garmin Smartwatch 1 has made regarding personal data deletion.",
+            "What data deletion observations has Garmin Smartwatch 1 made?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?observation), STRLEN(STR(iot-reg:)) + 1) AS ?observationValue)\nWHERE {\n  ?observation a iot-reg:Observation ;\n               iot-reg:activityHasPurpose iot-reg:DataDeletionPurpose ;\n               iot-reg:involvesPersonalData ?data .\n  ?data iot-reg:isObservedBy <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch1> .\n}"
+    },
+    {
+        "descriptions": [
+            "What encryption methods are used for data retention on Garmin Smartwatches?",
+            "Show me the encryption methods used for data retention on Garmin Smartwatches.",
+            "Which encryption methods are applied to data retention on Garmin Smartwatches?",
+            "List the encryption methods used for Garmin Smartwatch data retention.",
+            "What are the encryption methods for data retention on Garmin Smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?encryptionMethod\nWHERE {\n  ?dataRetention a iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n          ?data iot-reg:usesEncryptionMethod ?encryptionMethod .\n  ?data iot-reg:isObservedBy ?device .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is scheduled for deletion but hasn't been deleted yet?",
+            "Show me the data scheduled for deletion but not yet deleted.",
+            "Which data is scheduled for deletion but still exists?",
+            "List the data scheduled for deletion but not yet deleted.",
+            "What Garmin Smartwatch data is scheduled for deletion but hasn't been deleted?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataForDeletion) ?deletionTime\nWHERE {\n  ?dataDeletion a iot-reg:DataDeletion ;\n                iot-reg:deletes ?data ;\n                iot-reg:hasDeletionTime ?deletionTime ;\n                iot-reg:activityHasPurpose iot-reg:DataDeletionPurpose .\n  FILTER (?deletionTime < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which entities are responsible for processing Garmin Smartwatch 1 data?",
+            "Show me the entities responsible for processing Garmin Smartwatch 1 data.",
+            "What entities are responsible for processing data on Garmin Smartwatch 1?",
+            "List the entities responsible for Garmin Smartwatch 1 data processing.",
+            "Which entities process data on Garmin Smartwatch 1?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?processedData) (SUBSTR(STR(?controller), STRLEN(STR(iot-reg:)) + 1) AS ?controllerEntity)\nWHERE {\n    ?dataProcessing a iot-reg:DataProcessing ;\n                    iot-reg:processes ?data ;\n                    ^iot-reg:controlsProcessing ?controller .\n    ?data iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being retained without a retention period?",
+            "Show me the data retained without a retention period.",
+            "Which data is retained without a retention period?",
+            "List the data retained without a retention period.",
+            "What Garmin Smartwatch data is retained without a retention period?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?retainedData)\nWHERE {\n    ?dataRetention a iot-reg:DataRetention ;\n                    iot-reg:isCoveredBy ?policy ;\n                    iot-reg:retains ?data .\n      ?data iot-reg:hasDeletionTime ?deletionTime .\n    OPTIONAL {\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n    }\n    FILTER (!BOUND(?retentionPeriod))\n}"
+    }
+]

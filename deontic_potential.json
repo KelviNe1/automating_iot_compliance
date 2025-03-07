@@ -1,0 +1,1036 @@
+[
+    {
+        "descriptions": [
+            "What consents have been given for heart rate monitoring by the Garmin smartwatches?",
+            "Which Garmin smartwatches have received consent for heart rate monitoring?",
+            "Show me the consents provided for heart rate monitoring in Garmin devices.",
+            "List the consents for heart rate monitoring by Garmin smartwatches.",
+            "Which heart rate monitoring actions have consent from Garmin smartwatch users?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?consent), STRLEN(STR(iot-reg:))) AS ?consentDetail)\nWHERE {\n  ?consent rdf:type iot-reg:Consent .\n  ?consent iot-reg:consentHasPurpose iot-reg:HealthMonitoringPurpose .\n  ?consent iot-reg:permissionGivenForActivity iot-reg:HeartRateMonitoringAction .\n}"
+    },
+    {
+        "descriptions": [
+            "What consent has been given for heart rate monitoring by Garmin Smartwatch1?",
+            "Show me the consents provided for heart rate monitoring on Garmin Smartwatch1.",
+            "Which users have given consent for heart rate monitoring on Garmin Smartwatch1?",
+            "Which Garmin Smartwatch1 users have approved heart rate monitoring?",
+            "What heart rate monitoring consents have been given for Garmin Smartwatch1?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?consent), STRLEN(STR(iot-reg:)) + 1) AS ?consentValue)\nWHERE {\n  ?device a iot-reg:Device ;\n   iot-reg:ownedBy ?user .\n  ?user iot-reg:providesConsentTo ?consent .\n  ?consent iot-reg:permissionGivenForActivity iot-reg:HeartRateMonitoringAction .\n  FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which users of Garmin Smartwatch 1 have provided consent for sleep data collection?",
+            "Show me the users of Garmin Smartwatch 1 who have given consent for sleep data collection.",
+            "Who has provided consent for sleep data collection on Garmin Smartwatch 1?",
+            "List the users of Garmin Smartwatch 1 who have consented to sleep data collection.",
+            "Which Garmin Smartwatch 1 users have agreed to sleep data collection?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?user), STRLEN(STR(iot-reg:)) + 1) AS ?userValue)\nWHERE {\n  ?user iot-reg:providesConsentTo ?consent .\n  ?consent iot-reg:permissionGivenForActivity iot-reg:SleepMonitoringAction .\n  <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch1> iot-reg:ownedBy ?user .\n}"
+    },
+    {
+        "descriptions": [
+            "What encryption methods are used for data retention on Garmin Smartwatches when there is missing or expired consent?",
+            "Show me the encryption methods used for data retention on Garmin Smartwatches when consent is missing or expired.",
+            "Which encryption methods are applied to data retention on Garmin Smartwatches without valid consent?",
+            "List the encryption methods used for data retention on Garmin Smartwatches with missing or expired consent.",
+            "What are the encryption methods for data retention on Garmin Smartwatches without proper consent?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue)\nWHERE {\n    ?device a iot-reg:Device ;\n            iot-reg:madeObservation ?observation .\n    ?observation iot-reg:involvesPersonalData ?data .\n    ?data iot-reg:ownedBy ?user .\n    OPTIONAL {\n    ?user iot-reg:providesConsentTo ?consent .\n    ?consent iot-reg:hasConsentExpiryDate ?expiryDate .\n    }\n    FILTER (!BOUND(?consent) || ?expiryDate < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices are collecting data without a governing privacy policy at the data collection stage?",
+            "Show me the devices collecting data without a privacy policy at the data collection stage.",
+            "Which devices are collecting data without a privacy policy during data collection?",
+            "List the devices collecting data at the data collection stage without a privacy policy.",
+            "What devices are collecting data without a governing privacy policy?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue)\nWHERE {\n    ?device a iot-reg:Device ;\n            iot-reg:madeObservation ?observation .\n    ?observation iot-reg:involvesPersonalData ?data .\n    ?dataCollection a iot-reg:DataCollection ;\n                    iot-reg:collects ?data ;\n                    iot-reg:ownedBy ?user .\n    OPTIONAL {\n    ?dataCollection iot-reg:isCoveredBy ?policy .\n    }\n    FILTER (!BOUND(?policy))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is being shared with recipients without valid consent at the data sharing stage?",
+            "Show me the data shared without valid consent at the data sharing stage.",
+            "What data is being shared with recipients without valid consent during data sharing?",
+            "List the data shared without valid consent at the data sharing stage.",
+            "What data is being shared without consent at the data sharing stage?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n    ?dataSharing a iot-reg:DataSharing ;\n                iot-reg:shares ?data ;\n                iot-reg:hasRecipient ?recipient ;\n                iot-reg:isCoveredBy ?policy .\n    OPTIONAL {\n    ?dataSharing iot-reg:permissionGivenForActivity ?consent .\n    }\n    FILTER (!BOUND(?consent))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being retained without encryption or missing retention policies?",
+            "Show me the data being retained without encryption or with missing retention policies.",
+            "Which data is being retained without encryption or missing retention policies?",
+            "List the data retained without encryption or missing retention policies.",
+            "What Garmin Smartwatch data is retained without encryption or retention policies?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?retainedData)\nWHERE {\n    ?dataRetention a iot-reg:DataRetention ;\n                    iot-reg:isCoveredBy ?policy ;\n                    iot-reg:retains ?data .\n          ?data iot-reg:hasRetentionPeriod ?retentionPeriod ;\n                    iot-reg:hasDeletionTime ?deletionTime .\n    OPTIONAL {\n    ?dataRetention iot-reg:usesEncryptionMethod ?encryptionMethod .\n    }\n    FILTER (!BOUND(?encryptionMethod))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is being deleted without a valid deletion purpose?",
+            "Show me the data deleted without a valid deletion purpose.",
+            "Which data is being deleted without a deletion purpose?",
+            "List the data being deleted without a deletion purpose.",
+            "What Garmin Smartwatch data is being deleted without a purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataForDeletion)\nWHERE {\n  ?dataDeletion a iot-reg:DataDeletion ;\n                iot-reg:deletes ?data ;\n                iot-reg:hasDeletionTime ?deletionTime .\n  OPTIONAL {\n    ?dataDeletion iot-reg:activityHasPurpose ?purpose .\n  }\n  FILTER (!BOUND(?purpose))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is being deleted without proper governance (without control)?",
+            "Show me the data deleted without governance or control.",
+            "Which data is being deleted without proper governance or control?",
+            "List the data being deleted without governance or control.",
+            "What Garmin Smartwatch data is being deleted without proper control?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataForDeletion)\nWHERE {\n    ?dataDeletion a iot-reg:DataDeletion ;\n                iot-reg:deletes ?data ;\n                iot-reg:hasDeletionTime ?deletionTime .\n    OPTIONAL {\n    ?dataDeletion ^iot-reg:controlledBy ?controller .\n    }\n    FILTER (!BOUND(?controller))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data from Garmin Smartwatch 1 is being processed without valid user consent?",
+            "Show me the data processed by Garmin Smartwatch 1 without valid user consent.",
+            "Which data from Garmin Smartwatch 1 is being processed without consent?",
+            "List the data being processed without valid consent on Garmin Smartwatch 1.",
+            "What data is processed by Garmin Smartwatch 1 without consent?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?processedData)\nWHERE {\n    ?dataProcessing a iot-reg:DataProcessing ;\n                     iot-reg:processes ?data ;\n                    iot-reg:isCoveredBy ?policy ;\n                   ^iot-reg:controlsProcessing <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch1_Controller> .\n    OPTIONAL {\n    ?dataProcessing iot-reg:permissionGivenForActivity ?deviceConsent .\n    }\n    FILTER (!BOUND(?deviceConsent))\n}"
+    },
+
+    {
+        "descriptions": [
+            "Which data is being processed by Garmin Smartwatch 1 without a valid processing purpose?",
+            "Show me the data processed by Garmin Smartwatch 1 without a valid processing purpose.",
+            "Which data is being processed without a valid processing purpose on Garmin Smartwatch 1?",
+            "List the data being processed on Garmin Smartwatch 1 without a valid processing purpose.",
+            "What Garmin Smartwatch 1 data is being processed without a purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?processedData)\nWHERE {\n    ?dataProcessing a iot-reg:DataProcessing ;\n                    iot-reg:processes ?data ;\n                    iot-reg:isCoveredBy ?policy ;\n                    ^iot-reg:controlsProcessing <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#Garmin_Smartwatch1_Controller> .\n    OPTIONAL {\n    ?dataProcessing iot-reg:activityHasPurpose ?purpose .\n    }\n    FILTER (!BOUND(?purpose))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data from Garmin Smartwatches is being retained without encryption?",
+            "Show me the data retained by Garmin Smartwatches without encryption.",
+            "Which data is retained without encryption on Garmin Smartwatches?",
+            "List the Garmin Smartwatch data retained without encryption.",
+            "What Garmin Smartwatch data is retained without encryption?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?unencryptedData)\nWHERE {\n    ?dataRetention a iot-reg:DataRetention ;\n                    iot-reg:retains ?data .\n    OPTIONAL {\n    ?data iot-reg:usesEncryptionMethod ?encryptionMethod .\n    }\n    FILTER (!BOUND(?encryptionMethod))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data shared is not encrypted?",
+            "Show me the data shared by Garmin Smartwatches without encryption.",
+            "Which shared data is not encrypted on Garmin Smartwatches?",
+            "List the data shared without encryption by Garmin Smartwatches.",
+            "What Garmin Smartwatch data is shared without encryption?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\nWHERE {\n  ?dataSharing a iot-reg:DataSharing ;\n               iot-reg:shares ?data ;\n               iot-reg:hasRecipient ?recipient .\n  OPTIONAL {\n    ?dataSharing iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n  FILTER (!BOUND(?encryptionMethod))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are missing required GDPR regulatory controls (Articles 5, 6, 7)?",
+            "What data collection activities are non-compliant with GDPR Articles 5, 6, and 7?",
+            "List the data collection activities missing required regulatory controls.",
+            "Show me the data collection activities that don't meet GDPR requirements.",
+            "Which data collection activities are missing required GDPR controls?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  OPTIONAL { ?dataCollection iot-reg:hasRegulatoryControls ?control1 . FILTER(?control1 = iot-reg:Article_5) }\n  OPTIONAL { ?dataCollection iot-reg:hasRegulatoryControls ?control2 . FILTER(?control2 = iot-reg:Article_6) }\n  OPTIONAL { ?dataCollection iot-reg:hasRegulatoryControls ?control3 . FILTER(?control3 = iot-reg:Article_7) }\n  FILTER(!BOUND(?control1) || !BOUND(?control2) || !BOUND(?control3))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are not compliant with GDPR Article 28?",
+            "What data processing activities are violating GDPR Article 28?",
+            "List the data processing activities missing compliance with Article 28.",
+            "Show me the data processing activities violating GDPR Article 28.",
+            "Which data processing activities don't comply with GDPR Article 28?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  OPTIONAL { ?dataProcessing iot-reg:hasRegulatoryControls ?control . FILTER(?control = iot-reg:Article_28) }\n  FILTER(!BOUND(?control))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities lack compliance with GDPR Article 5(1)(e) (Storage limitation)?",
+            "What data retention activities are not compliant with GDPR Article 5(1)(e)?",
+            "Show me the data retention activities violating GDPR Article 5(1)(e).",
+            "List the data retention activities missing compliance with Article 5(1)(e).",
+            "Which data retention activities violate GDPR's storage limitation requirement?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention .\n  OPTIONAL { ?dataRetention iot-reg:hasRegulatoryControls ?control . FILTER(?control = iot-reg:Article_5_1_e) }\n  FILTER(!BOUND(?control))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities are missing compliance with GDPR Article 17 (Right to erasure)?",
+            "What data deletion activities violate GDPR Article 17?",
+            "List the data deletion activities missing compliance with GDPR Article 17.",
+            "Show me the data deletion activities violating the right to erasure under GDPR Article 17.",
+            "Which data deletion activities do not comply with GDPR's right to erasure?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  OPTIONAL { ?dataDeletion iot-reg:isRegulatedBy ?control . FILTER(?control = iot-reg:Article_17) }\n  FILTER(!BOUND(?control))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are not compliant with GDPR Article 44 (General principle for international personal data transfers)?",
+            "What data sharing activities violate GDPR Article 44?",
+            "List the data sharing activities not compliant with GDPR Article 44.",
+            "Show me the data sharing activities violating GDPR Article 44.",
+            "Which data sharing activities do not comply with GDPR Article 44?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing .\n  OPTIONAL { ?dataSharing iot-reg:hasRegulatoryControls ?control . FILTER(?control = iot-reg:Article_44) }\n  FILTER(!BOUND(?control))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are proceeding without valid (non-expired) consent as required by GDPR Article 6?",
+            "What data processing activities lack valid (non-expired) consent under GDPR Article 6?",
+            "Show me the data processing activities proceeding without valid consent.",
+            "List the data processing activities lacking non-expired consent.",
+            "Which data processing activities are being conducted without valid consent?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                    iot-reg:processes ?data .\n    OPTIONAL {\n        ?dataProcessing iot-reg:permissionGivenForActivity ?consent .\n        ?consent iot-reg:hasConsentExpiryDate ?expiryDate .\n    }\n    FILTER (!BOUND(?consent) || (?expiryDate) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are not covered by any privacy policy, violating GDPR Article 13?",
+            "What data collection activities lack coverage under a privacy policy?",
+            "List the data collection activities violating GDPR Article 13 due to lack of privacy policy.",
+            "Show me the data collection activities not covered by a privacy policy.",
+            "Which data collection activities violate GDPR Article 13?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n    ?dataCollection rdf:type iot-reg:DataCollection .\n    OPTIONAL {\n        ?dataCollection iot-reg:isCoveredBy ?privacyPolicy .\n    }\n    FILTER(!BOUND(?privacyPolicy))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities lack a specified retention period, violating GDPR Article 5(1)(e)?",
+            "What data retention activities are missing a specified retention period?",
+            "List the data retention activities violating GDPR Article 5(1)(e).",
+            "Show me the data retention activities missing a retention period.",
+            "Which data retention activities violate GDPR's storage limitation principle?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  OPTIONAL {\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n  }\n  FILTER(!BOUND(?retentionPeriod))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are being conducted without a defined purpose, violating GDPR Article 5(1)(b)?",
+            "What data processing activities lack a defined purpose as required by GDPR?",
+            "List the data processing activities without a specified purpose.",
+            "Show me the data processing activities violating GDPR's purpose limitation principle.",
+            "Which data processing activities lack a defined purpose?"
+        ],
+        "query": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  OPTIONAL {\n    ?dataProcessing iot-reg:activityHasPurpose ?purpose .\n  }\n  FILTER(!BOUND(?purpose))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities involve unencrypted data, potentially violating GDPR Article 32 (Security of processing)?",
+            "What data sharing activities lack encryption and may violate GDPR Article 32?",
+            "List the data sharing activities involving unencrypted personal data.",
+            "Show me the data sharing activities that don't specify encryption methods.",
+            "Which data sharing activities involve unencrypted data?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing ;\n               iot-reg:shares ?data .\n  OPTIONAL {\n    ?data iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n  FILTER(!BOUND(?encryptionMethod))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are missing any of the required GDPR regulatory controls (Articles 5, 6, 7, 9, and 13)?",
+            "What data collection activities lack the required GDPR controls?",
+            "List the data collection activities missing required GDPR regulatory controls.",
+            "Show me the data collection activities without required GDPR regulatory controls.",
+            "Which data collection activities are not compliant with GDPR Articles 5, 6, 7, 9, and 13?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?dataCollectionValue\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  BIND (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\n  FILTER NOT EXISTS {\n    ?dataCollection iot-reg:hasRegulatoryControls ?control .\n    VALUES ?control { iot-reg:Article_5 iot-reg:Article_6 iot-reg:Article_7 iot-reg:Article_9 iot-reg:Article_13 }\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are being conducted without valid (non-expired) consent as required under GDPR Articles 6, 7, and 9?",
+            "What data collection activities lack valid (non-expired) consent as required by GDPR?",
+            "List the data collection activities being conducted without valid consent.",
+            "Show me the data collection activities violating GDPR consent requirements.",
+            "Which data collection activities are missing valid consent?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection ;\n                  iot-reg:collects ?data .\n  OPTIONAL {\n    ?dataCollection iot-reg:permissionGivenForActivity ?consent .\n    ?consent iot-reg:hasConsentExpiryDate ?expiryDate .\n  }\n  FILTER (!BOUND(?consent) || (?expiryDate) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are not covered by any privacy policy, violating GDPR Article 13?",
+            "What data collection activities lack coverage under a privacy policy?",
+            "List the data collection activities violating GDPR Article 13 due to lack of privacy policy.",
+            "Show me the data collection activities not covered by a privacy policy.",
+            "Which data collection activities violate GDPR Article 13?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  FILTER NOT EXISTS {\n    ?dataCollection iot-reg:isCoveredBy ?privacyPolicy .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are being conducted without a defined purpose, violating GDPR Article 5(1)(b)?",
+            "What data collection activities lack a defined purpose as required by GDPR?",
+            "List the data collection activities without a specified purpose.",
+            "Show me the data collection activities violating GDPR's purpose limitation principle.",
+            "Which data collection activities lack a defined purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  FILTER NOT EXISTS {\n    ?dataCollection iot-reg:activityHasPurpose ?purpose .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which devices are collecting personal data without being associated with an owner (data subject), potentially violating GDPR provisions?",
+            "What devices are collecting personal data without being linked to a data subject?",
+            "List the devices that collect personal data but are not associated with a user.",
+            "Show me the devices collecting personal data without a data subject association.",
+            "Which devices are collecting personal data without a data subject owner?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue)\nWHERE {\n  ?device rdf:type iot-reg:Device ;\n          iot-reg:madeObservation ?observation .\n  ?observation iot-reg:involvesPersonalData ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:ownedBy ?user .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches did the controller fail to notify the supervisory authority within 72 hours as required by GDPR Article 33?",
+            "What data breaches were not reported to the supervisory authority within 72 hours?",
+            "List the data breaches that were not reported to authorities on time.",
+            "Show me the data breaches that violated GDPR Article 33 reporting requirements.",
+            "Which data breaches failed to meet the 72-hour reporting window?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue) ?duration\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach ;\n              iot-reg:hasBreachNotificationTime ?breachTime ;\n              iot-reg:involvesPersonalData ?personalData .\n  ?controller rdf:type iot-reg:Controller ;\n              iot-reg:controlsPersonalData ?personalData ;\n              iot-reg:hasNotificationTime ?notificationTime .\n  BIND(((?notificationTime) - (?breachTime)) AS ?duration)\n  FILTER(STR(?duration) > \"PT72H0M0.000S\")\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches are not linked to the required GDPR regulatory controls (Articles 33 and 34)?",
+            "What data breaches lack the required GDPR controls under Articles 33 and 34?",
+            "List the data breaches missing regulatory controls under GDPR Articles 33 and 34.",
+            "Show me the data breaches that do not meet regulatory control requirements.",
+            "Which data breaches are not compliant with GDPR Articles 33 and 34?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue)\n(SUBSTR(STR(?requiredControl), STRLEN(STR(iot-reg:)) + 1) AS ?missingControl)\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach .\n  VALUES ?requiredControl { iot-reg:Article_33 iot-reg:Article_34 }\n  FILTER EXISTS {\n  ?dataBreach iot-reg:hasRegulatoryControls ?requiredControl .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities have not maintained records of processing activities as required by GDPR Article 30?",
+            "What data deletion activities lack the required records of processing activities under GDPR?",
+            "List the data deletion activities missing required processing records.",
+            "Show me the data deletion activities violating GDPR Article 30.",
+            "Which data deletion activities lack records of processing?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  FILTER NOT EXISTS {\n    ?dataDeletion iot-reg:hasRegulatoryControls iot-reg:Article_30 .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches, that are likely to result in a high risk to the rights and freedoms of individuals, did the controller fail to notify the data subjects about, violating GDPR Article 34?",
+            "What data breaches have occurred where the controller failed to notify the data subjects as required by GDPR Article 34?",
+            "List the high-risk data breaches where the controller did not inform the data subjects.",
+            "Show me the data breaches with high risks that weren't communicated to the data subjects.",
+            "Which data breaches likely to result in high risk weren't communicated to the data subjects?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue)\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach ;\n              iot-reg:isHighRisk true ;\n              iot-reg:involvesPersonalData ?personalData .\n  ?controller rdf:type iot-reg:Controller ;\n              iot-reg:controlsPersonalData ?personalData .\n  FILTER NOT EXISTS {\n    ?controller iot-reg:notifiesDataSubject ?dataSubject .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are not controlled by any controller, violating GDPR's accountability principle?",
+            "What data collection activities lack a controller, violating GDPR's accountability principle?",
+            "List the data collection activities without a controller.",
+            "Show me the data collection activities that don't have a controller.",
+            "Which data collection activities violate GDPR's accountability principle due to lack of a controller?"
+        ],
+        "query": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  FILTER NOT EXISTS {\n    ?controller rdf:type iot-reg:Controller ;\n                iot-reg:controlsProcessing ?dataCollection .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities have not maintained records of processing activities as required by GDPR Article 30?",
+            "What data collection activities lack the required records of processing activities under GDPR?",
+            "List the data collection activities that haven't maintained records of processing activities.",
+            "Show me the data collection activities violating GDPR Article 30.",
+            "Which data collection activities don't have the required records of processing?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\nWHERE {\n  ?dataCollection rdf:type iot-reg:DataCollection .\n  FILTER NOT EXISTS {\n    ?dataCollection iot-reg:hasRecordsOfProcessing true .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are missing any of the required GDPR regulatory controls (Articles 6, 9, 28, and 32)?",
+            "What data sharing activities lack the required GDPR regulatory controls?",
+            "List the data sharing activities missing required GDPR regulatory controls.",
+            "Show me the data sharing activities without required GDPR controls.",
+            "Which data sharing activities are missing GDPR regulatory controls from Articles 6, 9, 28, and 32?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?dataSharingValue\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing .\n  BIND (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n  FILTER NOT EXISTS {\n    ?dataSharing iot-reg:hasRegulatoryControls ?control .\n    VALUES ?control { iot-reg:Article_6 iot-reg:Article_9 iot-reg:Article_28 iot-reg:Article_32 }\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are sharing personal data without specifying a recipient, potentially violating GDPR's accountability requirements?",
+            "What data sharing activities are sharing personal data without a recipient?",
+            "List the data sharing activities where personal data is being shared but no recipient is specified.",
+            "Show me the data sharing activities without a specified recipient.",
+            "Which data sharing activities violate GDPR accountability due to missing recipients?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?dataSharingValue\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing ;\n               iot-reg:shares ?data .\n  BIND (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n  FILTER NOT EXISTS {\n    ?dataSharing iot-reg:hasRecipient ?recipient .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities involve sharing personal data without specifying encryption methods, potentially violating GDPR Article 32?",
+            "What data sharing activities lack specified encryption methods for personal data?",
+            "List the data sharing activities where personal data is being shared without encryption methods.",
+            "Show me the data sharing activities violating GDPR Article 32 due to missing encryption methods.",
+            "Which data sharing activities are missing encryption methods?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?dataSharingValue\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing ;\n               iot-reg:shares ?data .\n  BIND (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n  FILTER NOT EXISTS {\n    ?dataSharing iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are not covered by any privacy policy, violating GDPR transparency requirements?",
+            "What data sharing activities lack coverage under a privacy policy?",
+            "List the data sharing activities violating GDPR transparency requirements due to missing privacy policy.",
+            "Show me the data sharing activities not covered by any privacy policy.",
+            "Which data sharing activities lack a privacy policy?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT ?dataSharingValue\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing ;\n               iot-reg:shares ?data .\n  BIND (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n  FILTER NOT EXISTS {\n    ?dataSharing iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are being conducted without a defined purpose, violating GDPR Article 5(1)(b)?",
+            "What data sharing activities lack a defined purpose?",
+            "List the data sharing activities that don't have a specified purpose.",
+            "Show me the data sharing activities without a purpose as required by GDPR Article 5(1)(b).",
+            "Which data sharing activities are missing a defined purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\nWHERE {\n  ?dataSharing rdf:type iot-reg:DataSharing .\n  FILTER NOT EXISTS {\n    ?dataSharing iot-reg:activityHasPurpose ?purpose .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are not controlled by any controller, violating GDPR's accountability principle?",
+            "What data sharing activities lack a controller, violating GDPR's accountability principle?",
+            "List the data sharing activities without a controller.",
+            "Show me the data sharing activities that don't have a controller.",
+            "Which data sharing activities violate GDPR's accountability principle due to lack of a controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing .\n    FILTER NOT EXISTS {\n        ?controller iot-reg:controlsProcessing ?dataSharing .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities involve transferring personal data to recipients outside the EEA without appropriate safeguards, potentially violating GDPR Articles 44-49?",
+            "What data sharing activities involve personal data transfers outside the EEA without safeguards?",
+            "List the data sharing activities where personal data is transferred outside the EEA without the required safeguards.",
+            "Show me the data sharing activities violating GDPR Articles 44-49 due to international transfers without safeguards.",
+            "Which data sharing activities involve data transfers outside the EEA without safeguards?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?retentionPeriod\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                    iot-reg:retains ?data .\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are missing any of the required GDPR regulatory controls (Articles 5(1)(e), 17, 30, and 32)?",
+            "What data retention activities lack the required GDPR controls?",
+            "List the data retention activities missing required GDPR controls under Articles 5(1)(e), 17, 30, and 32.",
+            "Show me the data retention activities without required GDPR controls.",
+            "Which data retention activities violate GDPR due to missing regulatory controls?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue) (SUBSTR(STR(?requiredControl), STRLEN(STR(iot-reg:)) + 1) AS ?missingControl)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention .\n  VALUES ?requiredControl { iot-reg:Article_5_1_e iot-reg:Article_17 iot-reg:Article_30 iot-reg:Article_32 }\n  FILTER NOT EXISTS {\n    ?dataRetention iot-reg:hasRegulatoryControls ?requiredControl .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are retaining personal data without specifying a retention period, violating GDPR Article 5(1)(e)?",
+            "What data retention activities don't specify a retention period?",
+            "List the data retention activities missing a specified retention period.",
+            "Show me the data retention activities violating GDPR Article 5(1)(e) due to missing retention period.",
+            "Which data retention activities are missing a retention period?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is still retained even though its deletion time has passed, violating GDPR Article 17?",
+            "What personal data is still retained past its deletion time?",
+            "List the personal data that is still retained after its deletion time.",
+            "Show me the personal data violating GDPR Article 17 because it's retained past its deletion time.",
+            "Which personal data is still retained after its deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?deletionTime\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  ?data iot-reg:hasDeletionTime ?deletionTime .\n  FILTER ((?deletionTime) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are retaining personal data without specifying an encryption method, potentially violating GDPR Article 32?",
+            "What data retention activities don't specify an encryption method?",
+            "List the data retention activities missing a specified encryption method.",
+            "Show me the data retention activities violating GDPR Article 32 due to missing encryption methods.",
+            "Which data retention activities are missing encryption methods?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are not covered by any privacy policy, violating GDPR transparency requirements?",
+            "What data retention activities aren't covered by a privacy policy?",
+            "List the data retention activities not covered by a privacy policy.",
+            "Show me the data retention activities violating GDPR transparency requirements due to missing privacy policy.",
+            "Which data retention activities are not covered by a privacy policy?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention .\n  FILTER NOT EXISTS {\n    ?dataRetention iot-reg:isCoveredBy ?privacyPolicy .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are not controlled by any controller, violating GDPR's accountability principle?",
+            "What data retention activities lack a controller?",
+            "List the data retention activities without a controller.",
+            "Show me the data retention activities violating GDPR's accountability principle due to lack of a controller.",
+            "Which data retention activities don't have a controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention .\n  FILTER NOT EXISTS {\n    ?controller rdf:type iot-reg:Controller ;\n                iot-reg:controlsProcessing ?dataRetention .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data retained in the data retention activities is not associated with any data subject (user), potentially violating GDPR provisions?",
+            "What personal data in retention activities isn't associated with a data subject?",
+            "List the personal data in retention activities not associated with a data subject.",
+            "Show me the personal data potentially violating GDPR due to lack of a data subject.",
+            "Which personal data in retention activities isn't associated with a data subject?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:ownedBy ?dataSubject .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "What are the specified personal data retention periods?",
+            "What are the retention periods for personal data?",
+            "List the retention periods for personal data.",
+            "Show me the specified retention periods for personal data.",
+            "What are the retention periods for the personal data retained?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?retentionPeriod\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is being retained beyond its specified retention period, violating GDPR Article 5(1)(e)?",
+            "What personal data is being retained beyond its retention period?",
+            "List the personal data still retained after its retention period has passed.",
+            "Show me the personal data violating GDPR Article 5(1)(e) due to retention beyond its period.",
+            "Which personal data is being retained after its retention period?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?retentionPeriod ?deletionTime\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                    iot-reg:retains ?data .\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod ;\n        iot-reg:hasDeletionTime ?deletionTime .\n    FILTER ((?deletionTime) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are retaining personal data without specifying a deletion time, violating GDPR requirements?",
+            "What data retention activities don't specify a deletion time?",
+            "List the data retention activities missing a specified deletion time.",
+            "Show me the data retention activities violating GDPR due to missing deletion time.",
+            "Which data retention activities are missing a deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                    iot-reg:retains ?data .\n    FILTER NOT EXISTS {\n    ?data iot-reg:hasDeletionTime ?deletionTime .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retention activities are retaining personal data without specifying a deletion time, violating GDPR requirements?",
+            "What data retention activities don't specify a deletion time?",
+            "List the data retention activities missing a specified deletion time.",
+            "Show me the data retention activities violating GDPR due to missing deletion time.",
+            "Which data retention activities are missing a deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetention), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionValue)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n                 iot-reg:retains ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:hasDeletionTime ?deletionTime .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are missing any of the required GDPR regulatory controls (Articles 6, 9, 28, 32, and 24)?",
+            "What data processing activities are missing required GDPR controls?",
+            "List the data processing activities without necessary GDPR controls (Articles 6, 9, 28, 32, and 24).",
+            "Show me the data processing activities missing required GDPR controls.",
+            "Which data processing activities violate GDPR due to missing regulatory controls?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue) (SUBSTR(STR(?requiredControl), STRLEN(STR(iot-reg:)) + 1) AS ?missingControl)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  VALUES ?requiredControl { iot-reg:Article_6 iot-reg:Article_9 iot-reg:Article_24 iot-reg:Article_28 iot-reg:Article_32 }\n  FILTER NOT EXISTS {\n    ?dataProcessing iot-reg:hasRegulatoryControls ?requiredControl .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are being conducted without valid (non-expired) consent as required under GDPR Articles 6 and 9?",
+            "What data processing activities lack valid consent under GDPR Articles 6 and 9?",
+            "List the data processing activities conducted without valid (non-expired) consent.",
+            "Show me the data processing activities violating GDPR due to lack of valid consent.",
+            "Which data processing activities are missing valid consent?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                  iot-reg:processes ?data .\n  OPTIONAL {\n    ?dataProcessing iot-reg:permissionGivenForActivity ?consent .\n    ?consent iot-reg:hasConsentExpiryDate ?expiryDate .\n  }\n  FILTER (!BOUND(?consent) || (?expiryDate) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities do not have an associated processor, potentially violating GDPR Article 28?",
+            "What data processing activities don't have an associated processor?",
+            "List the data processing activities without an associated processor.",
+            "Show me the data processing activities violating GDPR due to lack of a processor.",
+            "Which data processing activities are missing an associated processor?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  FILTER NOT EXISTS {\n    ?dataProcessing iot-reg:hasProcessor ?processor .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are not controlled by any controller, violating GDPR's accountability principle?",
+            "What data processing activities are not controlled by any controller?",
+            "List the data processing activities without a controller.",
+            "Show me the data processing activities violating GDPR's accountability principle.",
+            "Which data processing activities don't have a controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  FILTER NOT EXISTS {\n    ?controller rdf:type iot-reg:Controller ;\n                iot-reg:controlsProcessing ?dataProcessing .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are being conducted without a defined purpose, violating GDPR Article 5(1)(b)?",
+            "What data processing activities lack a defined purpose?",
+            "List the data processing activities being conducted without a defined purpose.",
+            "Show me the data processing activities violating GDPR Article 5(1)(b) due to lack of a defined purpose.",
+            "Which data processing activities don't have a defined purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing .\n    FILTER NOT EXISTS {\n    ?dataProcessing iot-reg:activityHasPurpose ?purpose .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are conducted without specifying security measures (e.g., encryption), potentially violating GDPR Article 32?",
+            "What data processing activities don't specify security measures like encryption?",
+            "List the data processing activities missing security measures.",
+            "Show me the data processing activities violating GDPR Article 32 due to lack of security measures.",
+            "Which data processing activities don't specify security measures?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                  iot-reg:processes ?data .\n  FILTER NOT EXISTS {\n    ?data iot-reg:usesEncryptionMethod ?encryptionMethod .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities are not covered by any privacy policy, violating GDPR transparency requirements?",
+            "What data processing activities aren't covered by a privacy policy?",
+            "List the data processing activities not covered by a privacy policy.",
+            "Show me the data processing activities violating GDPR transparency requirements due to missing privacy policy.",
+            "Which data processing activities are not covered by a privacy policy?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  FILTER NOT EXISTS {\n    ?dataProcessing iot-reg:isCoveredBy ?privacyPolicy .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities lack a specified legal basis for processing, violating GDPR Article 6?",
+            "What data processing activities don't have a specified legal basis?",
+            "List the data processing activities missing a legal basis for processing.",
+            "Show me the data processing activities violating GDPR Article 6 due to lack of a legal basis.",
+            "Which data processing activities don't have a legal basis for processing?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing .\n  FILTER NOT EXISTS {\n    ?dataProcessing iot-reg:hasRegulatoryControls iot-reg:Article_6 .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data processing activities involve processing special category personal data (e.g., health data) without appropriate safeguards, violating GDPR Article 9?",
+            "What data processing activities are processing special category personal data without safeguards?",
+            "List the data processing activities violating GDPR Article 9 due to missing safeguards.",
+            "Show me the data processing activities involving special category data without safeguards.",
+            "Which data processing activities involve processing health or other special category data without safeguards?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataProcessing), STRLEN(STR(iot-reg:)) + 1) AS ?dataProcessingValue)\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                  iot-reg:processes ?data .\n  ?data rdf:type iot-reg:FeatureOfInterest .\n  FILTER EXISTS {\n    ?dataProcessing iot-reg:hasRegulatoryControls iot-reg:Article_9 .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities are deleting personal data without specifying a deletion time, violating GDPR requirements?",
+            "What data deletion activities don't specify a deletion time?",
+            "List the data deletion activities missing a specified deletion time.",
+            "Show me the data deletion activities violating GDPR due to missing deletion time.",
+            "Which data deletion activities are missing a deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n    ?dataDeletion rdf:type iot-reg:DataDeletion ;\n                iot-reg:deletes ?data .\n    FILTER NOT EXISTS {\n    ?data iot-reg:hasDeletionTime ?deletionTime .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data should have been deleted according to its deletion time but is still retained, violating GDPR Article 17?",
+            "What personal data should have been deleted but is still retained?",
+            "List the personal data that should have been deleted but is still retained.",
+            "Show me the personal data that hasn't been deleted despite passing its deletion time.",
+            "Which personal data is still retained after its deletion time?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) ?deletionTime\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion ;\n                iot-reg:deletes ?data .\n  ?data iot-reg:hasDeletionTime ?deletionTime .\n  FILTER ((?deletionTime) < NOW())\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities are not controlled by any controller, violating GDPR's accountability principle?",
+            "What data deletion activities are not controlled by any controller?",
+            "List the data deletion activities without a controller.",
+            "Show me the data deletion activities violating GDPR due to lack of a controller.",
+            "Which data deletion activities don't have a controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  FILTER NOT EXISTS {\n    ?controller rdf:type iot-reg:Controller ;\n                iot-reg:controlsProcessing ?dataDeletion .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities are being conducted without a defined purpose, violating GDPR's purpose limitation principle?",
+            "What data deletion activities are being conducted without a defined purpose?",
+            "List the data deletion activities without a defined purpose.",
+            "Show me the data deletion activities violating GDPR's purpose limitation principle.",
+            "Which data deletion activities are being conducted without a clear purpose?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  FILTER NOT EXISTS {\n    ?dataDeletion iot-reg:activityHasPurpose ?purpose .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities are not covered by any privacy policy, violating GDPR transparency requirements?",
+            "What data deletion activities aren't covered by a privacy policy?",
+            "List the data deletion activities not covered by a privacy policy.",
+            "Show me the data deletion activities violating GDPR due to lack of a privacy policy.",
+            "Which data deletion activities lack a privacy policy?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  FILTER NOT EXISTS {\n    ?dataDeletion iot-reg:isCoveredBy ?privacyPolicy .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities involve personal data where the data subject has requested erasure, but the data has not been deleted, violating GDPR Article 17?",
+            "What data deletion activities involve personal data where erasure was requested but hasn't been completed?",
+            "List the data deletion activities where erasure was requested but not completed.",
+            "Show me the data deletion activities violating GDPR Article 17 due to pending erasure requests.",
+            "Which data deletion activities haven't fulfilled erasure requests?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) (SUBSTR(STR(?dataSubject), STRLEN(STR(iot-reg:)) + 1) AS ?dataSubjectValue) ?erasureRequestDate\nWHERE {\n  ?data rdf:type iot-reg:FeatureOfInterest ;\n  iot-reg:ownedBy ?dataSubject .\n  ?dataSubject iot-reg:hasRequestedErasure true ;\n  iot-reg:hasErasureRequestDate ?erasureRequestDate .\n  FILTER NOT EXISTS {\n    ?dataDeletion rdf:type iot-reg:DataDeletion ;\n    iot-reg:deletes ?data .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities did the controller fail to notify data subjects about the deletion of their personal data, potentially violating GDPR Article 19?",
+            "What data deletion activities did the controller fail to notify the data subject about?",
+            "List the data deletion activities where the controller failed to notify the data subject.",
+            "Show me the data deletion activities violating GDPR due to failure to notify the data subject.",
+            "Which data deletion activities weren't notified to the data subject by the controller?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue) (SUBSTR(STR(?dataSubject), STRLEN(STR(iot-reg:)) + 1) AS ?dataSubjectValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion ;\n                iot-reg:deletes ?data .\n  ?data iot-reg:ownedBy ?dataSubject .\n  ?controller rdf:type iot-reg:Controller ;\n              iot-reg:controlsProcessing ?dataDeletion .\n  FILTER NOT EXISTS {\n    ?controller iot-reg:notifiesDataSubject ?dataSubject ;\n                iot-reg:hasNotificationTime ?notificationTime .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities involve special category personal data (e.g., health data such as Garmin_Smartwatch1_HeartRateData and Garmin_Smartwatch1_PhysicalActivityData) without appropriate safeguards, violating GDPR Article 9?",
+            "What data deletion activities involve health data or special category personal data without safeguards?",
+            "List the data deletion activities involving special category data without appropriate safeguards.",
+            "Show me the data deletion activities violating GDPR Article 9 due to missing safeguards for special category data.",
+            "Which data deletion activities involve special category personal data without safeguards?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue) (SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion ;\n                iot-reg:deletes ?data .\n  VALUES ?specialCategoryData { iot-reg:Garmin_Smartwatch1_HeartRateData iot-reg:Garmin_Smartwatch1_PhysicalActivityData }\n  FILTER (?data = ?specialCategoryData)\n  FILTER NOT EXISTS {\n    ?dataDeletion iot-reg:hasRegulatoryControls iot-reg:Article_9 .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches have occurred where the controller has not notified the data subject or the supervisory authority as required by GDPR Articles 33 and 34?",
+            "What data breaches haven't been reported to the data subject or the supervisory authority?",
+            "List the data breaches where the controller failed to notify the data subject or supervisory authority.",
+            "Show me the data breaches violating GDPR Articles 33 and 34 due to failure to notify the data subject or supervisory authority.",
+            "Which data breaches have occurred where no notification was made to the data subject or supervisory authority?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue)\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach ;\n              iot-reg:involvesPersonalData ?personalData ;\n              iot-reg:hasBreachNotificationTime ?breachTime .\n  ?controller rdf:type iot-reg:Controller ;\n              iot-reg:controlsPersonalData ?personalData .\n  OPTIONAL {\n    ?controller iot-reg:notifiesDataSubject ?dataSubject .\n  }\n  OPTIONAL {\n    ?controller iot-reg:notifiesSupervisoryAuthority ?supervisoryAuthority .\n  }\n  FILTER (!BOUND(?dataSubject) || !BOUND(?supervisoryAuthority))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches did the controller fail to notify the supervisory authority within 72 hours as required by GDPR Article 33?",
+            "Which breaches were not reported to the supervisory authority within 72 hours as required by GDPR?",
+            "List data breaches where the 72-hour notification to the supervisory authority was not met.",
+            "Which data breaches missed the GDPR 72-hour notification window to the supervisory authority?",
+            "Show me data breaches that were not reported within 72 hours to the supervisory authority, violating GDPR Article 33."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue) ?duration\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach ;\n              iot-reg:hasBreachNotificationTime ?breachTime ;\n              iot-reg:involvesPersonalData ?personalData .\n  ?controller rdf:type iot-reg:Controller ;\n              iot-reg:controlsPersonalData ?personalData ;\n              iot-reg:hasNotificationTime ?notificationTime .\n  BIND(((?notificationTime) - (?breachTime)) AS ?duration)\n  FILTER(STR(?duration) > \"PT72H0M0.000S\")\n}"
+    },
+    {
+        "descriptions": [
+            "Which data breaches are not linked to the required GDPR regulatory controls (Articles 33 and 34)?",
+            "Show me data breaches without compliance to GDPR Articles 33 and 34.",
+            "Which breaches are not linked to the necessary GDPR controls (33 and 34)?",
+            "List the data breaches that are not covered by GDPR Articles 33 or 34.",
+            "Which data breaches lack the required GDPR controls from Articles 33 and 34?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?dataBreach), STRLEN(STR(iot-reg:)) + 1) AS ?dataBreachValue)\n(SUBSTR(STR(?requiredControl), STRLEN(STR(iot-reg:)) + 1) AS ?missingControl)\nWHERE {\n  ?dataBreach rdf:type iot-reg:DataBreach .\n  VALUES ?requiredControl { iot-reg:Article_33 iot-reg:Article_34 }\n  FILTER NOT EXISTS {\n    ?dataBreach iot-reg:hasRegulatoryControls ?requiredControl .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which data deletion activities have not maintained records of processing activities as required by GDPR Article 30?",
+            "Show me the data deletion activities missing records of processing activities as required by GDPR Article 30.",
+            "Which data deletion activities are missing records of processing, violating GDPR Article 30?",
+            "List the data deletion activities without records of processing, violating GDPR Article 30.",
+            "Which data deletion activities do not have records of processing, violating GDPR Article 30?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?dataDeletion), STRLEN(STR(iot-reg:)) + 1) AS ?dataDeletionValue)\nWHERE {\n  ?dataDeletion rdf:type iot-reg:DataDeletion .\n  FILTER NOT EXISTS {\n    ?dataDeletion iot-reg:hasRegulatoryControls iot-reg:Article_30 .\n  }\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data is collected lawfully by all devices under GDPR Article 5?",
+            "What personal data do devices collect lawfully in accordance with GDPR Article 5?",
+            "Show me the personal data that devices collect under legal obligations in compliance with GDPR Article 5.",
+            "What data is lawfully collected by devices under the regulatory obligations of GDPR Article 5?",
+            "Which devices ensure lawful data collection as per GDPR Article 5?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\n?articleLabel\nWHERE {\n  ?collection rdf:type iot-reg:DataCollection ;\n              iot-reg:collects ?data ;\n              iot-reg:hasRegulatoryControls ?GdprControl .\n  ?GdprControl iot-reg:hasObligation ?obligation .\n  ?obligation rdfs:label ?obligationLabel .\n  ?GdprControl rdfs:label ?articleLabel .\n  FILTER(CONTAINS(STR(?obligationLabel), \"lawfully, fairly, and transparently\") \n      || CONTAINS(STR(?obligationLabel), \"specific information when collecting\")\n      || CONTAINS(STR(?obligationLabel), \"lawful basis for processing\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What lawful consents have been given for heart rate monitoring by Garmin smartwatches?",
+            "Which consents are provided lawfully for heart rate monitoring on Garmin smartwatches?",
+            "Show me the consents legally provided for heart rate monitoring on Garmin devices.",
+            "Which lawful permissions for heart rate monitoring are recorded on Garmin smartwatches?",
+            "What consents for heart rate monitoring comply with legal obligations on Garmin devices?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?consent), STRLEN(STR(iot-reg:))) AS ?consentDetail)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\n?articleLabel\nWHERE {\n    ?consent rdf:type iot-reg:Consent ;\n            iot-reg:consentHasPurpose iot-reg:HealthMonitoringPurpose ;\n            iot-reg:permissionGivenForActivity iot-reg:HeartRateMonitoringAction .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    ?GdprControl rdfs:label ?articleLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What are the lawful data retention periods for personal data retained by Garmin smartwatches, ensuring compliance with storage limitation requirements?",
+            "What is the retention period for personal data on Garmin smartwatches as required by GDPR Article 5(1)(e)?",
+            "Show me the retention periods for personal data on Garmin smartwatches as per GDPR compliance.",
+            "Which Garmin smartwatch personal data has legally specified retention periods?",
+            "What are the lawful retention times for personal data stored on Garmin smartwatches?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:))+1) AS ?dataValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:))+1) AS ?GdprControlValue) \n?retentionPeriod \n?obligationLabel \nWHERE {\n    ?dataRetention a iot-reg:DataRetention ;\n                iot-reg:retains ?data .\n    ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n    ?dataRetention iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation ;\n                rdfs:label ?GdprControlLabel .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?GdprControlLabel), \"Storage limitation\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is encrypted on Garmin Smartwatches under GDPR, ensuring compliance with GDPR Article 32 regarding data security obligations?",
+            "Show me the personal data encrypted on Garmin smartwatches in compliance with GDPR Article 32.",
+            "Which personal data on Garmin smartwatches complies with encryption obligations under GDPR Article 32?",
+            "What encrypted data is observed by Garmin smartwatches under GDPR security requirements?",
+            "Which data encryption measures are in place on Garmin smartwatches under GDPR regulations?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?encryptedData) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?data iot-reg:isEncrypted true ;\n        iot-reg:isObservedBy ?device .\n    ?GdprControl iot-reg:hasObligation ?obligation ;\n                rdfs:label ?gdprControlLabel .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"appropriate security measures\"))\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is shared lawfully with healthcare providers during the data sharing stage under GDPR?",
+            "Which personal data is legally shared with healthcare providers under GDPR regulations?",
+            "Show me the lawful data shared with healthcare providers in compliance with GDPR.",
+            "What lawful data is shared with healthcare providers during the data sharing phase?",
+            "Which personal data meets legal obligations when shared with healthcare providers under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT\n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataSharing a iot-reg:DataSharing ;\n                iot-reg:shares ?data ;\n                iot-reg:hasRecipient iot-reg:HealthcareProvider ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation  rdfs:label ?obligationLabel .\n    ?data iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What devices are owned by users who have lawfully provided consent for data sharing under GDPR?",
+            "Show me devices where users have provided lawful consent for data sharing.",
+            "Which devices are linked to users who have given valid consent for data sharing?",
+            "What devices comply with GDPR by having lawful user consent for data sharing?",
+            "List devices with user consent for lawful data sharing under GDPR obligations."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue) \n(SUBSTR(STR(?consent), STRLEN(STR(iot-reg:)) + 1) AS ?consentValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel\nWHERE {\n    ?device rdf:type iot-reg:Device ;\n            iot-reg:ownedBy ?user .\n    ?user iot-reg:providesConsentTo ?consent .\n    ?consent iot-reg:permissionGivenForActivity iot-reg:DataSharingActivity .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which users of Garmin Smartwatch 1 have lawfully provided consent for sleep monitoring under GDPR?",
+            "List Garmin Smartwatch 1 users who have provided lawful consent for sleep monitoring.",
+            "What users have legally consented to sleep monitoring by Garmin Smartwatch 1?",
+            "Show me users with valid consent for sleep monitoring on Garmin Smartwatch 1.",
+            "Which users lawfully authorize sleep monitoring under GDPR for Garmin Smartwatch 1?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?user), STRLEN(STR(iot-reg:)) + 1) AS ?userValue)\n(SUBSTR(STR(?consent), STRLEN(STR(iot-reg:)) + 1) AS ?consentValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel\nWHERE {\n?device rdf:type iot-reg:Device ;\n        iot-reg:ownedBy ?user ;\n        FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\")) .\n?user iot-reg:providesConsentTo ?consent .\n?consent iot-reg:permissionGivenForActivity iot-reg:SleepMonitoringAction .\n?GdprControl iot-reg:hasObligation ?obligation .\n?obligation rdfs:label ?obligationLabel .\nFILTER(CONTAINS(STR(?obligationLabel), \"consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is collected by Garmin Smartwatch 1 for health monitoring purposes under GDPR obligations?",
+            "Show me the health monitoring data collected by Garmin Smartwatch 1 under GDPR compliance.",
+            "Which personal data is collected by Garmin Smartwatch 1 for health purposes under GDPR?",
+            "List the data Garmin Smartwatch 1 collects for health monitoring in line with GDPR.",
+            "What data does Garmin Smartwatch 1 lawfully collect for health monitoring under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel\nWHERE {\n    ?device rdf:type iot-reg:Device ;\n            FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\")) .\n    ?device iot-reg:madeObservation ?observation .\n    ?observation iot-reg:involvesPersonalData ?data ;\n            iot-reg:activityHasPurpose iot-reg:HealthMonitoringPurpose .\n    ?collection rdf:type iot-reg:DataCollection ;\n            iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"processed lawfully, fairly, and transparently\") \n            || CONTAINS(STR(?obligationLabel), \"based on consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What permissions exist for Garmin Smartwatch 1 for collecting health monitoring data under GDPR permissions?",
+            "Which permissions apply to health monitoring data collection by Garmin Smartwatch 1 under GDPR?",
+            "Show me the lawful permissions for collecting health data on Garmin Smartwatch 1.",
+            "Which permissions authorize health monitoring data collection by Garmin Smartwatch 1?",
+            "What permissions allow Garmin Smartwatch 1 to collect health monitoring data under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?permissionLabel\nWHERE {\n    ?device rdf:type iot-reg:Device ;\n            FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\")) .\n    ?device iot-reg:madeObservation ?observation .\n    ?observation iot-reg:involvesPersonalData ?data ;\n                iot-reg:activityHasPurpose iot-reg:HealthMonitoringPurpose .\n    ?collection rdf:type iot-reg:DataCollection ;\n            iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasPermission ?permission .\n    ?permission rdfs:label ?permissionLabel .\n    FILTER(CONTAINS(STR(?permissionLabel), \"Processing is allowed\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data collection is prohibited for health monitoring by Garmin Smartwatch 1 under GDPR prohibitions?",
+            "Which data collection activities are prohibited for health monitoring by Garmin Smartwatch 1 under GDPR?",
+            "Show me the data collection prohibitions for Garmin Smartwatch 1 regarding health monitoring.",
+            "What health monitoring data is Garmin Smartwatch 1 prohibited from collecting under GDPR?",
+            "Which data is Garmin Smartwatch 1 restricted from collecting for health monitoring under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?prohibitionLabel\nWHERE {\n    ?device rdf:type iot-reg:Device ;\n            FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch1\")) .\n    ?device iot-reg:madeObservation ?observation .\n    ?observation iot-reg:involvesPersonalData ?data ;\n            iot-reg:activityHasPurpose iot-reg:HealthMonitoringPurpose .\n    ?collection rdf:type iot-reg:DataCollection ;\n            iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasProhibition ?prohibition .\n    ?prohibition rdfs:label ?prohibitionLabel .\n    FILTER(CONTAINS(STR(?prohibitionLabel), \"Processing data without\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is being shared with recipients without valid consent at the data sharing stage?",
+            "Show me the data shared without valid consent at the data sharing phase.",
+            "What data is being shared with recipients unlawfully due to missing consent?",
+            "Which personal data is shared without valid consent at the data sharing stage?",
+            "List the data shared with recipients without valid consent during data sharing."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?prohibitionLabel\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing ;\n                    iot-reg:shares ?data ;\n                    iot-reg:hasRecipient ?recipient .\n    ?data iot-reg:isObservedBy ?device .\n    FILTER(CONTAINS(STR(?device), \"Garmin_Smartwatch\"))\n    ?dataSharing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasProhibition ?prohibition .\n    ?prohibition rdfs:label ?prohibitionLabel .\n    FILTER(CONTAINS(STR(?prohibitionLabel), \"Prohibition on processing data without valid consent\")\n            || CONTAINS(STR(?prohibitionLabel), \"explicit consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which personal data retained by Garmin smartwatches is either unencrypted or missing retention policies under GDPR Article 5 and Article 32?",
+            "Show me personal data retained by Garmin smartwatches that lacks encryption or retention policies under GDPR.",
+            "What data held by Garmin smartwatches is either unencrypted or missing retention periods as required under GDPR?",
+            "List the unencrypted personal data or data missing retention policies under GDPR for Garmin smartwatches.",
+            "What personal data is retained without encryption or retention period on Garmin smartwatches under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?retainedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                    iot-reg:retains ?data .\n    OPTIONAL {\n        ?data iot-reg:isEncrypted false .\n    }\n    OPTIONAL {\n        ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n        FILTER(!BOUND(?retentionPeriod))  # Check for missing retention period\n    }\n    ?dataRetention iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl rdfs:label ?GdprControlLabel .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?GdprControlLabel), \"Storage limitation\") \n            || CONTAINS(STR(?obligationLabel), \"appropriate security measures\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data retained by Garmin smartwatches lacks a retention period, potentially violating GDPR Article 5 (storage limitation)?",
+            "Show me the data retained without a defined retention period by Garmin smartwatches under GDPR Article 5.",
+            "What personal data is missing retention periods on Garmin smartwatches under GDPR storage limitation?",
+            "List the personal data that lacks retention periods for Garmin smartwatches under GDPR Article 5.",
+            "What data is retained beyond its retention period requirements by Garmin smartwatches under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?retainedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                   iot-reg:retains ?data .\n    OPTIONAL {\n        ?data iot-reg:hasRetentionPeriod ?retentionPeriod .\n        FILTER(!BOUND(?retentionPeriod))\n    }\n    ?dataRetention iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?GdprControl rdfs:label ?GdprControlLabel .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?GdprControlLabel), \"Storage limitation\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities are missing required GDPR regulatory controls?",
+            "Show me the data collection activities that lack GDPR regulatory controls.",
+            "What data collection processes are not compliant with GDPR regulatory controls?",
+            "Which data collection activities are missing necessary GDPR compliance controls?",
+            "List the data collection activities that lack required GDPR obligations and controls."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataCollection rdf:type iot-reg:DataCollection .\n    OPTIONAL {\n        ?dataCollection iot-reg:hasRegulatoryControls ?GdprControl .\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    FILTER(!BOUND(?GdprControl)) \n}"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities have the required GDPR regulatory controls?",
+            "List the data collection activities that comply with GDPR controls.",
+            "Which data collection processes include the required GDPR regulatory obligations?",
+            "Show me the data collection activities with full GDPR compliance.",
+            "Which data collection activities are following GDPR's required regulatory controls?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataCollection rdf:type iot-reg:DataCollection .\n    OPTIONAL {\n        ?dataCollection iot-reg:hasRegulatoryControls ?GdprControl .\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    FILTER(BOUND(?GdprControl)) \n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is lawfully processed by third-party processors during the data processing stage under GDPR?",
+            "List the personal data lawfully processed by third-party processors under GDPR.",
+            "Which personal data is handled by third-party processors in compliance with GDPR?",
+            "What data is lawfully processed by third-party entities during the processing stage?",
+            "Show me the personal data processed lawfully by third-party processors under GDPR."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?processedData) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                    iot-reg:processes ?data .\n    ?data iot-reg:hasProcessor ?thirdPartyProcessor .\n    ?dataProcessing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?GdprControl rdfs:label ?GdprControlLabel .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"processing\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is lawfully shared with healthcare providers during the data sharing stage under GDPR?",
+            "Which personal data is shared with healthcare providers according to GDPR?",
+            "List the personal data shared with healthcare providers under GDPR obligations.",
+            "Which data is shared lawfully with healthcare providers during the data sharing process?",
+            "Show me the personal data that is lawfully shared with healthcare providers under GDPR."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData) \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing ;\n                    iot-reg:shares ?data ;\n                    iot-reg:hasRecipient iot-reg:HealthcareProvider .\n    ?dataSharing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"sharing of data\")\n            || CONTAINS(STR(?obligationLabel), \"based on consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Which data is being unlawfully processed without valid consent or legal grounds under GDPR?",
+            "Show me the personal data being processed unlawfully, lacking valid consent or legal basis.",
+            "What personal data is being handled without legal justification or valid consent under GDPR?",
+            "List the data that is being processed unlawfully under GDPR without valid consent or legal reasons.",
+            "Which personal data is being processed in violation of GDPR due to lack of consent or legal basis?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?unlawfulData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?prohibitionLabel\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                    iot-reg:processes ?data .\n    ?dataProcessing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasProhibition ?prohibition .\n    ?prohibition rdfs:label ?prohibitionLabel .\n    FILTER(CONTAINS(STR(?prohibitionLabel), \"without lawful reason\")\n            || CONTAINS(STR(?prohibitionLabel), \"without valid consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being processed with explicit permission for specific purposes under GDPR?",
+            "Which personal data is being processed with valid permissions under GDPR for health or legal purposes?",
+            "Show me the personal data being processed with explicit permissions for specific purposes.",
+            "Which data is being processed lawfully with explicit permissions under GDPR for certain purposes?",
+            "List the personal data being processed under explicit permissions for health or legal claims."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?permittedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?permissionLabel\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                    iot-reg:processes ?data ;\n                    iot-reg:activityHasPurpose iot-reg:DataProcessingPurpose .\n    ?dataProcessing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasPermission ?permission .\n    ?permission rdfs:label ?permissionLabel .\n    FILTER(CONTAINS(STR(?permissionLabel), \"health or legal claims\")\n            || CONTAINS(STR(?permissionLabel), \"explicit consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being retained with exceptions under GDPR, such as legal claims or public interest grounds?",
+            "Show me the personal data retained under exceptions like legal claims or public interest.",
+            "Which data is retained with exceptions under GDPR, such as legal claims or for public interest purposes?",
+            "List the data being retained under GDPR exceptions, including legal claims and public interest.",
+            "What personal data is retained with legal claims or public interest exceptions under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?retainedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?dispensationLabel\nWHERE {\n    ?dataRetention rdf:type iot-reg:DataRetention ;\n                   iot-reg:retains ?data .\n    ?dataRetention iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasDispensation ?dispensation .\n    ?dispensation rdfs:label ?dispensationLabel .\n    FILTER(CONTAINS(STR(?dispensationLabel), \"legal claims\")\n           || CONTAINS(STR(?dispensationLabel), \"public interest\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What data is being processed in violation of GDPR prohibitions, such as processing without a lawful basis?",
+            "Show me the personal data being processed in violation of GDPR due to lack of legal basis.",
+            "Which data is being processed unlawfully, violating GDPR prohibitions on processing without consent?",
+            "List the personal data processed in violation of GDPR prohibitions, such as no lawful grounds.",
+            "What personal data is being processed in breach of GDPR prohibitions, lacking lawful basis?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataWithProcessingProhibition)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?prohibitionLabel\nWHERE {\n    ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                    iot-reg:processes ?data .\n    ?dataProcessing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasProhibition ?prohibition .\n    ?prohibition rdfs:label ?prohibitionLabel .\n    FILTER(CONTAINS(STR(?prohibitionLabel), \"without lawful\")\n            || CONTAINS(STR(?prohibitionLabel), \"without valid consent\"))\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is being shared without necessary permissions during the data sharing stage?",
+            "List the personal data being shared without the required permissions under GDPR.",
+            "Which data is being shared unlawfully without permissions during the data sharing process?",
+            "Show me the personal data shared with healthcare providers without necessary permissions.",
+            "Which personal data is shared in violation of GDPR, without appropriate permissions?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?sharedData)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?permissionLabel\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing ;\n                    iot-reg:shares ?data ;\n                    iot-reg:hasRecipient iot-reg:HealthcareProvider .\n    ?dataSharing iot-reg:isSharedWithPermission true .\n    ?dataSharing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasPermission ?permission .\n    ?permission rdfs:label ?permissionLabel .\n    FILTER(CONTAINS(STR(?permissionLabel), \"health or legal claims\")\n            || CONTAINS(STR(?permissionLabel), \"specific legal grounds\"))\n}"
+    },
+    {
+        "descriptions": [
+            "Under GDPR, what are the related obligations, permissions, prohibitions, and dispensations applied during the data collection stage?",
+            "List the obligations, permissions, prohibitions, and dispensations for GDPR data collection.",
+            "What are the GDPR rules, including obligations, permissions, and prohibitions, applied to data collection?",
+            "Which obligations, permissions, prohibitions, and dispensations apply to the data collection stage?",
+            "Show me the GDPR-compliant obligations, permissions, and prohibitions related to data collection."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel \n?permissionLabel \n?prohibitionLabel \n?dispensationLabel\nWHERE {\n    ?collection rdf:type iot-reg:DataCollection ;\n                iot-reg:collects ?data ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    OPTIONAL {\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasPermission ?permission .\n        ?permission rdfs:label ?permissionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasProhibition ?prohibition .\n        ?prohibition rdfs:label ?prohibitionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasDispensation ?dispensation .\n        ?dispensation rdfs:label ?dispensationLabel .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Under GDPR, what are the related obligations, permissions, prohibitions, and dispensations applied during the data retention stage?",
+            "List the obligations, permissions, prohibitions, and dispensations during the data retention phase under GDPR.",
+            "What are the GDPR rules, including obligations, permissions, and prohibitions, related to data retention?",
+            "Which obligations, permissions, prohibitions, and dispensations apply during data retention under GDPR?",
+            "Show me the GDPR-compliant obligations, permissions, and prohibitions for data retention."
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel \n?permissionLabel \n?prohibitionLabel \n?dispensationLabel\nWHERE {\n    ?retention rdf:type iot-reg:DataRetention ;\n                iot-reg:retains ?data ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    OPTIONAL {\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasPermission ?permission .\n        ?permission rdfs:label ?permissionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasProhibition ?prohibition .\n        ?prohibition rdfs:label ?prohibitionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasDispensation ?dispensation .\n        ?dispensation rdfs:label ?dispensationLabel .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Under GDPR, what are the obligations, permissions, prohibitions, and dispensations applied in data sharing?",
+            "Which GDPR controls apply to data sharing activities, including permissions, prohibitions, and dispensations?",
+            "List all GDPR-related obligations, permissions, and prohibitions during data sharing.",
+            "What GDPR-compliant rules govern obligations, permissions, prohibitions, and dispensations during data sharing activities?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel \n?permissionLabel \n?prohibitionLabel \n?dispensationLabel\nWHERE {\n    ?sharing rdf:type iot-reg:DataSharing ;\n                iot-reg:shares ?data ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    OPTIONAL {\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasPermission ?permission .\n        ?permission rdfs:label ?permissionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasProhibition ?prohibition .\n        ?prohibition rdfs:label ?prohibitionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasDispensation ?dispensation .\n        ?dispensation rdfs:label ?dispensationLabel .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Under GDPR, what obligations, permissions, and prohibitions are applied during data processing?",
+            "Which GDPR regulations control data processing, including obligations and permissions?",
+            "List the permissions, prohibitions, and dispensations applied to data processing under GDPR.",
+            "What obligations, permissions, and prohibitions apply to data processing under GDPR?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel \n?permissionLabel \n?prohibitionLabel\n?dispensationLabel\nWHERE {\n    ?processing rdf:type iot-reg:DataProcessing ;\n                iot-reg:processes ?data ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    OPTIONAL {\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasPermission ?permission .\n        ?permission rdfs:label ?permissionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasProhibition ?prohibition .\n        ?prohibition rdfs:label ?prohibitionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasDispensation ?dispensation .\n        ?dispensation rdfs:label ?dispensationLabel .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "Under GDPR, what obligations, permissions, and prohibitions govern data deletion?",
+            "Which GDPR rules, including permissions and prohibitions, apply to data deletion?",
+            "List the GDPR-related controls, permissions, and prohibitions for data deletion.",
+            "What GDPR obligations, permissions, and prohibitions are applied to data deletion activities?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue) \n?obligationLabel \n?permissionLabel \n?prohibitionLabel \n?dispensationLabel\nWHERE {\n    ?deletion rdf:type iot-reg:DataDeletion ;\n                iot-reg:deletes ?data ;\n                iot-reg:hasRegulatoryControls ?GdprControl .\n    OPTIONAL {\n        ?GdprControl iot-reg:hasObligation ?obligation .\n        ?obligation rdfs:label ?obligationLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasPermission ?permission .\n        ?permission rdfs:label ?permissionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasProhibition ?prohibition .\n        ?prohibition rdfs:label ?prohibitionLabel .\n    }\n    OPTIONAL {\n        ?GdprControl iot-reg:hasDispensation ?dispensation .\n        ?dispensation rdfs:label ?dispensationLabel .\n    }\n}"
+    },
+    {
+        "descriptions": [
+            "What personal data is processed with permissions granted under GDPR?",
+            "Which personal data is lawfully processed under GDPR permissions?",
+            "List all personal data processed with GDPR permissions.",
+            "What personal data is processed in compliance with GDPR permissions?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?data), STRLEN(STR(iot-reg:)) + 1) AS ?dataValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?permissionLabel\nWHERE {\n  ?dataProcessing rdf:type iot-reg:DataProcessing ;\n                  iot-reg:processes ?data ;\n                  iot-reg:hasRegulatoryControls ?GdprControl .\n  ?GdprControl iot-reg:hasPermission ?permission .\n  ?permission rdfs:label ?permissionLabel .\n} \nGROUP BY ?data ?GdprControl ?permissionLabel\n"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities lack privacy policy coverage, violating GDPR transparency obligations?",
+            "What data sharing activities are not covered by privacy policies, breaching GDPR?",
+            "List all data sharing activities lacking privacy policies and violating GDPR transparency rules.",
+            "Which data sharing activities violate GDPR transparency due to missing privacy policy coverage?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?obligationLabel\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing ;\n                iot-reg:shares ?data .\n    FILTER NOT EXISTS {\n    ?dataSharing iot-reg:usesEncryptionMethod ?encryptionMethod .\n    }\n    ?dataSharing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasObligation ?obligation .\n    ?obligation rdfs:label ?obligationLabel .\n    FILTER(CONTAINS(STR(?obligationLabel), \"transparently\"))\n}\n"
+    },
+    {
+        "descriptions": [
+            "Which data sharing activities are conducted without a defined purpose but are still permitted under GDPR?",
+            "List the data sharing activities lacking a defined purpose but based on GDPR permissions.",
+            "What data sharing activities lack a defined purpose, but have valid GDPR permissions?",
+            "Which data sharing activities are authorized under GDPR permissions despite missing defined purposes?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?dataSharing), STRLEN(STR(iot-reg:)) + 1) AS ?dataSharingValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?permissionLabel\nWHERE {\n    ?dataSharing rdf:type iot-reg:DataSharing .\n    FILTER NOT EXISTS {\n    ?dataSharing iot-reg:activityHasPurpose ?purpose .\n    }\n    ?dataSharing iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasPermission ?permission .\n    ?permission rdfs:label ?permissionsLabel .\n}\n"
+    },
+    {
+        "descriptions": [
+            "Which data collection activities lack defined purposes and permissions required by GDPR?",
+            "List all data collection activities that lack both defined purposes and permissions.",
+            "Which data collection activities are unauthorized due to missing purposes and permissions under GDPR?",
+            "What data collection activities violate GDPR by lacking defined purposes and permissions?"
+        ],
+        "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT \n(SUBSTR(STR(?dataCollection), STRLEN(STR(iot-reg:)) + 1) AS ?dataCollectionValue)\n(SUBSTR(STR(?GdprControl), STRLEN(STR(iot-reg:)) + 1) AS ?GdprControlValue)\n?permissionLabel\nWHERE {\n    ?dataCollection rdf:type iot-reg:DataCollection .\n    FILTER NOT EXISTS {\n    ?dataCollection iot-reg:activityHasPurpose ?purpose .\n    }\n    ?dataCollection iot-reg:hasRegulatoryControls ?GdprControl .\n    ?GdprControl iot-reg:hasPermission ?permission .\n    ?permission rdfs:label ?permissionLabel .\n    FILTER(CONTAINS(STR(?permissionLabel), \"specific legitimate purposes\"))\n}\n"
+    }
+]
