@@ -24,7 +24,7 @@ def parse_txt_file(file_path):
     ---
     
     Returns a list of dictionaries with keys:
-      - "description": the main query (first element)
+      - "Description": the main query (first element)
       - "query": the associated SPARQL query
     """
     
@@ -36,9 +36,7 @@ def parse_txt_file(file_path):
     for block in blocks:
         if not block.strip():
             continue
-        # Use regex to extract the main description (inside quotes after "Description:")
         desc_match = re.search(r'\(Description:\s*"(.*?)",', block, re.DOTALL)
-        # Use regex to extract the SPARQL query (between the first pair of double quotes after "Query:")
         query_match = re.search(r'Query:\s*"\n([\s\S]*?)\n"', blocks[0], re.DOTALL)
         if desc_match and query_match:
             description = desc_match.group(1).strip()
