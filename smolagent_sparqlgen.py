@@ -219,28 +219,3 @@ def evaluate_system(natural_language_queries: list, max_iterations: int = 10) ->
     success_rate = (successful / total) * 100.0
     return success_rate
 
-
-
-
-if __name__ == "__main__":
-    example_queries = [
-    "What data retention policies apply to Garmin Smartwatch 2?",
-    "Identify data sharing activities transferring personal data internationally without proper safeguards.",
-    "When will heart rate data collected by Garmin be deleted?"
-    "Has the data breach policy regarding GDPR been breached by the Garmin smartwatch1?"
-    "What activities related to data deletion have a deletion time?"
-    "Identify data deletion activities that delete personal data with a specified deletion time."
-    "Which data breaches did the controller fail to notify the supervisory authority within 72 hours as required by GDPR Article 33?"
-    "Which devices record the Location feature?"
-    ]
-    
-    first_run = SPARQLSelfCorrectionAgent(max_iterations=2)
-    first_run.forward(example_queries[0]) 
-    # print("The system successfully generated valid SPARQL queries for", success_rate, "percent of the queries within ten iterations.")
-    # Explanation of the performance metric:
-    # The recommendation 'ninety percent at pass ten' means that the system is expected to produce a valid SPARQL query
-    # for at least ninety percent of the natural language queries within ten iterations of self-correction.
-    # if success_rate >= 90.0:
-    #     print("The performance metric 'ninety percent at pass ten' has been achieved. This indicates a robust self-correction loop.")
-    # else:
-    #     print("The performance metric 'ninety percent at pass ten' has not been achieved. Further improvements are required.")
