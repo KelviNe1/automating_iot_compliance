@@ -40,7 +40,7 @@ class EvaluationTest:
         logging.info("Compliance advice generation and CSV export completed.")
 
 if __name__ == "__main__":
-    source_path = "/Users/Kelchee/Documents/Papers/P3/complaince_app/data/training_data/old/combined_factualplusnormative.json"
+    source_path = "combined_factualplusnormative.json"
     destination = "smol_compliance_advice_output.csv"
     endpoint_url = "http://localhost:3030/Iot-Reg/sparql"
 
