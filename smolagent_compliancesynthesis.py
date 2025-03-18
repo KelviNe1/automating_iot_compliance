@@ -29,9 +29,9 @@ from llama_index.core.postprocessor import SimilarityPostprocessor
 # Configure logging.
 logging.basicConfig(level=logging.INFO)
 
-#############################################
+
 # Pre-Retrieval Query Refinement for Regulatory Context
-#############################################
+
 class RegulatoryQueryRefiner:
     """
     Refines a natural language query to improve regulatory context retrieval.
@@ -39,17 +39,7 @@ class RegulatoryQueryRefiner:
     Uses a pre-trained T5 model (e.g., 't5-base') to reengineer and expand the query,
     aiming to capture additional regulatory nuances for more effective context retrieval.
     """
-    # def __init__(self, model_name: str = "t5-base"):
-    #     self.tokenizer = T5Tokenizer.from_pretrained(model_name)
-    #     self.model = T5ForConditionalGeneration.from_pretrained(model_name)
     
-    # def refine_query(self, query: str) -> str:
-    #     input_text = f"Rephrase the following query to include detailed regulatory context: {query}"
-    #     inputs = self.tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True)
-    #     outputs = self.model.generate(inputs, max_length=512, num_beams=5, early_stopping=True)
-    #     refined_query = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-    #     logging.info("Refined Regulatory Query: %s", refined_query)
-    #     return refined_query
     def __init__(self, model_name: str = "google/flan-t5-large", temperature: float = 0.8, top_k: int = 50):
         self.tokenizer = T5Tokenizer.from_pretrained(model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(model_name)
@@ -70,8 +60,6 @@ class RegulatoryQueryRefiner:
             return query
             
         
-        
-        # Provide a couple of examples of how you want queries expanded:
         example_instructions = """
         Example:
         Input: "list device compliance"
@@ -110,17 +98,17 @@ def retrieve_regulatory_context(nl_query: str) -> str:
     Returns:
         str: A human-readable regulatory context extracted from the corpus.
     """
-    # Instantiate the regulatory query refiner.
+    # Instantiate the regulatory query refiner
     refiner = RegulatoryQueryRefiner(model_name="t5-base") #not in use
     refined_query = refiner.refine_query(nl_query)
     
-    # Set up LlamaIndex settings for regulatory documents.
+    # Set up LlamaIndex settings for regulatory documents
     Settings.embed_model = HuggingFaceEmbedding(model_name="nlpaueb/legal-bert-base-uncased")
     Settings.llm = None
     Settings.chunk_size = 256
     Settings.chunk_overlap = 25
     
-    # Load regulatory documents from 'regulatory_data' (PDFs with official texts).
+    # Load regulatory documents from "regulatory_data"
     documents = SimpleDirectoryReader("/Users/Kelchee/Documents/Papers/P3/complaince_app/data/retrieval_data").load_data()
     if not documents:
         logging.warning("No regulatory documents found in 'regulatory_data'.")
@@ -141,9 +129,9 @@ def retrieve_regulatory_context(nl_query: str) -> str:
     logging.info("Retrieved\n%s", reg_context)
     return reg_context
 
-#############################################
+
 # Enhanced Compliance Synthesis Module
-#############################################
+
 class EnhancedComplianceSynthesisModule:
     """
     Synthesizes compliance advice by integrating:
@@ -186,13 +174,13 @@ class EnhancedComplianceSynthesisModule:
         Generates multiple candidate compliance advice responses by invoking the fine-tuned LLM repeatedly.
         """
         model_directory = "mlx-community/Mistral-7B-Instruct-v0.2-4bit"
-        adapter_file = "/Users/Kelchee/Documents/Papers/P3/exp/fine-tune/adapters.npz"
+        adapter_file = "adapters.npz"
         max_tokens = 600
         
         candidates = []
         for i in range(self.num_candidates):
             command = [
-                "python", "/Users/Kelchee/Documents/Papers/P3/exp/fine-tune/scripts/lora.py",
+                "python", "lora.py",
                 "--model", model_directory,
                 "--adapter-file", adapter_file,
                 "--max-tokens", str(max_tokens),
@@ -245,18 +233,6 @@ class EnhancedComplianceSynthesisModule:
         logging.info("Selected candidate %d with cosine score %.4f", best_idx + 1, cosine_scores[best_idx])
         return candidates_extract[best_idx], candidates_extract
     
-    # def rerank_candidates(self, candidates: List[str], combined_context: str) -> str: #compare btw prompt and individual candidates
-    #     """
-    #     Reranks candidate responses based on semantic similarity with the combined context.
-        
-    #     Returns the candidate response with the highest cosine similarity.
-    #     """
-    #     context_embedding = self.embedding_model.encode(combined_context, convert_to_tensor=True)#prompt, instead
-    #     candidate_embeddings = self.embedding_model.encode(candidates, convert_to_tensor=True)
-    #     cosine_scores = util.cos_sim(candidate_embeddings, context_embedding)
-    #     best_idx = int(np.argmax(cosine_scores.cpu().numpy()))
-    #     logging.info("Selected candidate %d with cosine score %.4f", best_idx + 1, cosine_scores[best_idx].item())
-    #     return candidates[best_idx]
 
     def synthesize_compliance_advice(self, nl_query: str) -> Dict:
         """
@@ -344,12 +320,11 @@ def run_command_with_live_output(command: List[str]) -> str:
         logging.error(err_output)
     return "\n".join(output_lines)
 
-#############################################
+
 # Example Usage
-#############################################
 if __name__ == "__main__":
     sample_nl_query = "Show me the devices owned by users who have consented to data sharing."
-    endpoint_url = "http://localhost:3030/Iot-Reg/sparql"  # Replace with your actual SPARQL endpoint.
+    endpoint_url = "http://localhost:3030/Iot-Reg/sparql"  
     
     compliance_module = EnhancedComplianceSynthesisModule(endpoint_url=endpoint_url, num_candidates=3)
     compliance_report = compliance_module.synthesize_compliance_advice(sample_nl_query)
