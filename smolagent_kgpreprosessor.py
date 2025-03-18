@@ -37,15 +37,3 @@ class SPARQLResultProcessor:
             return f"No relevant data found for the query: '{self.original_query}'. This may indicate a lack of relevant information in the knowledge graph."
 
 
-
-# if __name__ == "__main__":
-    # original_query_str = ""
-    # example_sparql_result = {
-    #     "results": {
-    #         "bindings": []
-    #     }
-    # }
-
-    # processor = SPARQLResultProcessor(original_query_str, example_sparql_result)
-    # result_text = processor.preprocess_sparql_results_dynamic()
-    # print(result_text)
