@@ -1,6 +1,6 @@
 import json
 
-def load_combined_data(source_path: str = "/Users/Kelchee/Documents/Papers/P3/complaince_app/data/training_data/old/combined_factualplusnormative.json", nond_num=25, d_num=25):
+def load_combined_data(source_path: str = "combined_factualplusnormative.json", nond_num=25, d_num=25):
     """
     Reads JSON data from source_path, splits into non-deontic (nond_num)
     and deontic (d_num), and returns a combined list.
