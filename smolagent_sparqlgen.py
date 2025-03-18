@@ -8,9 +8,6 @@ import time
 from smolagent_data_utils import load_combined_data
 
 
-# sparql_query_ = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?device), STRLEN(STR(iot-reg:)) + 1) AS ?deviceValue)\nWHERE {\n  ?device a iot-reg:Device ;\n          iot-reg:ownedBy ?user .\n  ?user iot-reg:providesConsentTo ?consent .\n  ?consent iot-reg:permissionGivenForActivity iot-reg:DataSharingActivity .\n}"
-
-
 def build_initial_prompt(natural_language_query: str) -> str:
     """
     This function creates the complete prompt that will be used to generate an initial SPARQL query.
@@ -24,9 +21,6 @@ def build_initial_prompt(natural_language_query: str) -> str:
         The generated query is grounded in the knowledge base represented by the IoT-Reg Knowledge Graph. \
         Output only the SPARQL query in response to the following question.
         """
-        # "You are a regulatory compliance assistant for Internet of Things manufacturers. "
-        # "Your task is to generate a syntactically correct SPARQL query that is executable against a knowledge base. "
-        # "Please generate the SPARQL query for the following natural language question."
     )
     prompt = f"<s>[INST] {instructions}\n{natural_language_query}\n[/INST]\n"
     return prompt
@@ -56,11 +50,11 @@ def run_finetuned_model(prompt: str) -> str:
     It constructs the command using the provided prompt and returns the model output, which should be a SPARQL query.
     """
     model_directory = "mlx-community/Mistral-7B-Instruct-v0.2-4bit"
-    adapter_file = "/Users/Kelchee/Documents/Papers/P3/exp/fine-tune/adapters.npz"
+    adapter_file = "adapters.npz"
     max_tokens = "600"
     
     command = [
-        "python", "/Users/Kelchee/Documents/Papers/P3/exp/fine-tune/scripts/lora.py",
+        "python", "lora.py",
         "--model", model_directory,
         "--adapter-file", adapter_file,
         "--max-tokens", max_tokens,
@@ -82,7 +76,6 @@ def extract_sparql_query(output: str) -> str:
     Returns:
         str: The extracted SPARQL query.
     """
-    # Using a more robust regular expression to match the SPARQL query, including FILTER, OPTIONAL, and nested blocks.
     sparql_query_match = re.search(r'(PREFIX.*?WHERE\s*{(?:[^{}]*|{[^{}]*})*})', output, re.DOTALL)
     
     if sparql_query_match:
@@ -91,7 +84,6 @@ def extract_sparql_query(output: str) -> str:
         return sparql_query
     else:
         raise ValueError("INVALID SPARQL query found in the output.")
-
 
 space = False
 class SPARQLGenerationTool(Tool):
@@ -170,11 +162,6 @@ class SPARQLRefinementTool(Tool):
         sparql_query = extract_sparql_query(refined_query)
         return sparql_query
 
-# from smolagents import HfApiModel
-# model = HfApiModel(model_id="Qwen/Qwen2.5-Coder-32B-Instruct")
-# agent = CodeAgent(tools=[], model=model, add_base_tools=True)
-# agent.tools[SPARQLRefinementTool.name] = sparql_refinement_tool #load tool
-# agent.run()
 
 class SPARQLSelfCorrectionAgent:
     """
@@ -248,14 +235,11 @@ if __name__ == "__main__":
     ]
     
     first_run = SPARQLSelfCorrectionAgent(max_iterations=2)
-    first_run.forward(example_queries[0]) #returns: "{'final_query': 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX iot-reg: <http://knacc.umbc.edu/kelvinechenim/ontologies/iot-reg#>\nSELECT DISTINCT (SUBSTR(STR(?dataRetentionPolicy), STRLEN(STR(iot-reg:)) + 1) AS ?dataRetentionPolicy)\nWHERE {\n  ?dataRetention rdf:type iot-reg:DataRetention ;\n               iot-reg:retains ?data ;\n               iot-reg:isActedOn ?device .\n  FILTER (?device = iot-reg:Garmin_Smartwatch_2)\n} \n==========', 'iterations_used': 1}"
-    print(first_run)
-    # success_rate = evaluate_system(example_queries, max_iterations=10)
+    first_run.forward(example_queries[0]) 
     # print("The system successfully generated valid SPARQL queries for", success_rate, "percent of the queries within ten iterations.")
-    
-    # # Explanation of the performance metric:
-    # # The recommendation 'ninety percent at pass ten' means that the system is expected to produce a valid SPARQL query
-    # # for at least ninety percent of the natural language queries within ten iterations of self-correction.
+    # Explanation of the performance metric:
+    # The recommendation 'ninety percent at pass ten' means that the system is expected to produce a valid SPARQL query
+    # for at least ninety percent of the natural language queries within ten iterations of self-correction.
     # if success_rate >= 90.0:
     #     print("The performance metric 'ninety percent at pass ten' has been achieved. This indicates a robust self-correction loop.")
     # else:
