@@ -54,7 +54,7 @@ def augment_query_variations(main_query, model="gpt-4o-mini", max_tokens=100, nu
     
     Parameters:
       main_query (str): The original query description.
-      model (str): The model to use (default "o3-mini").
+      model (str): The model to use.
       max_tokens (int): Maximum tokens for the generated text.
       num_variations (int): Number of variations to generate.
     
@@ -62,7 +62,7 @@ def augment_query_variations(main_query, model="gpt-4o-mini", max_tokens=100, nu
       list: A list of generated query variations.
     """
     prompt = (
-        f"You are a compliance expert. Generate {num_variations} additional natural language variations of the following query that have the same meaning:\n"
+        f"You are an IoT data privacy compliance expert. Generate {num_variations} additional natural language variations of the following query that have the same meaning:\n"
         f"\"{main_query}\"\n"
         "Output each variation on a new line."
     )
@@ -80,8 +80,7 @@ def augment_query_variations(main_query, model="gpt-4o-mini", max_tokens=100, nu
         print("Error calling OpenAI API:", e)
         return []
     
-    # Use model_dump() to convert the response to a dictionary.
-    response_dict = completion.model_dump()
+    response_dict = completion.model_dump() #convert the response to a dictionary
     variations_text = response_dict["choices"][0]["text"].strip()
     variations = [line.strip() for line in variations_text.split("\n") if line.strip()]
     
@@ -90,11 +89,10 @@ def augment_query_variations(main_query, model="gpt-4o-mini", max_tokens=100, nu
     return variations
 
 def main():
-    input_file = "/Users/Kelchee/Documents/Papers/P3/exp/KG/nondeontic_extra.txt"   # The .txt file with query pairs
-    output_file = "/Users/Kelchee/Documents/Papers/P3/exp/KG/augmented_training_data.json"
+    input_file = "nondeontic_extra.txt"   # The .txt file with query pairs
+    output_file = "augmented_training_data.json"
     
-    # Parse the .txt file to extract query pairs
-    parsed_entries = parse_txt_file(input_file)
+    parsed_entries = parse_txt_file(input_file) # Parse the .txt file to extract query pairs
     
     augmented_entries = []
 
